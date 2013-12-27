@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app id="WebApp_ID" version="2.4"
+xmlns="http://java.sun.com/xml/ns/j2ee"
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee http://java.sun.com/xml/ns/j2ee/web-app_2_4.xsd">
+  <welcome-file-list>
+    <welcome-file>index.jsp</welcome-file>
+  </welcome-file-list>
+  
+    <listener>
+		<listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
+	</listener>
+
+	<context-param>
+		<param-name>contextConfigLocation</param-name>
+		<param-value>/WEB-INF/restlet-servlet.xml</param-value>
+	</context-param>
+	
+	<servlet>   
+        <servlet-name>restlet</servlet-name>  
+       
+        <!--  
+        <servlet-class>    
+            org.restlet.ext.spring.RestletFrameworkServlet   
+        </servlet-class>   
+       	-->
+       	
+       	<servlet-class>
+       		org.restlet.ext.spring.SpringServerServlet
+       	</servlet-class>
+
+        
+        <init-param>   
+            <param-name>org.restlet.component</param-name>   
+            <param-value>component</param-value>   
+        </init-param> 
+       
+        <!-- 
+        <init-param>  
+            <param-name>targetRestletBeanName</param-name>  
+            <param-value>component</param-value>  
+        </init-param>  
+        -->
+        
+    </servlet>   
+
+    <servlet-mapping>   
+        <servlet-name>restlet</servlet-name>   
+        <url-pattern>/*</url-pattern>   
+    </servlet-mapping>
+    
+
+
+	
+    
+    
+</web-app>

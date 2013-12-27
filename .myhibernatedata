@@ -1,0 +1,20 @@
+#MyEclipse Hibernate Properties
+#Thu Dec 05 09:39:13 CST 2013
+genBasicCompId=false
+sessionFactoryName=
+profile=
+daoSFId=sessionFactory
+jndiPath=
+detectM2M=false
+reStrategyClass=
+detectO2O=false
+springDaoFile=WebRoot/WEB-INF/restlet-servlet.xml
+useJavaTypes=true
+keyGenerator=
+genVersionTag=false
+sessionFactoryId=sessionFactory
+basePersistenceClass=
+genAnnotations=false
+reSettingsFile=
+configFile=/BugTrackingSystem/WebRoot/WEB-INF/restlet-servlet.xml
+createConfigFile=true
