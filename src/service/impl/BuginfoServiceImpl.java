@@ -54,17 +54,18 @@ public class BuginfoServiceImpl implements IBuginfoService{
 		
 		
 	
-			Buginfo bg = new Buginfo(bugId, title, type, project, status,
+			Buginfo bg = new Buginfo(bugId, title, project, type, status,
 					description,  owner, submitter,
 					Timestamp.valueOf(sumitterData), severity,  tags,
 					 regression,  component);
+			
  			buginfoDao.save(bg);
 			
 			List<Userinfo> userinfoList = userinfoDao.findByUsername(username);
 
 			if (userinfoList != null && userinfoList.size() > 0) {
 				Userinfo ui = userinfoList.get(0);
-				if ( !ui.getOneBugFullName().equals(owner) ) { //needs to add to one's managed list
+				if ( !ui.getOneBugFullName().equals(owner) ) {  //needs to add to one's managed list
 					Managedbugs mb = new Managedbugs(ui.getId(), bg.getId());
 					
 					managedBugsDao.save(mb);
@@ -73,6 +74,7 @@ public class BuginfoServiceImpl implements IBuginfoService{
 			}
 		
 	}
+	
 	@Override
 	public List<Buginfo> getBuginfoListByUserName(String username, boolean managed) {
 		// TODO Auto-generated method stub

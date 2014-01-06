@@ -59,6 +59,7 @@ public class Buginfo implements java.io.Serializable {
 		this.tags = tags;
 		this.regression = regression;
 		this.component = component;
+		this.managedStatus = 0;
 	}
 
 	// Property accessors

@@ -19,11 +19,8 @@ public class BugStatusResource extends ServerResource{
 		Form form = getRequest().getResourceRef().getQueryAsForm();  
 		String id = form.getFirstValue("id");
 		String bugId = form.getFirstValue("bugId");
-		
-		System.out.println("budId:" + bugId + " id:" + id);
+
 		String bugStatus = CrawlStatusFromOneBug.crawlOneBug(bugId);
-		
-		System.out.println("bugStatus : " + bugStatus);
 		
 		buginfoService.updateStatus(Integer.valueOf(id), bugId, bugStatus);
 			

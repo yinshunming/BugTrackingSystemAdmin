@@ -73,6 +73,7 @@ public class BugsResource extends ServerResource{
 	public IBuginfoService getBuginfoService() {
 		return buginfoService;
 	}
+	
 	public void setBuginfoService(IBuginfoService buginfoService) {
 		this.buginfoService = buginfoService;
 	}
