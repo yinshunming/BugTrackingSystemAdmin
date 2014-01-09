@@ -21,14 +21,12 @@ public class Managedbugs implements java.io.Serializable {
 	public Managedbugs() {
 	}
 
-	/** full constructor */
+
 	public Managedbugs(Integer userInfoId, Integer bugInfoId) {
-		this.userInfoId = userInfoId;
-		this.bugInfoId = bugInfoId;
-		this.status = ConstantUtil.managedBugsStatus;
+		this(userInfoId, bugInfoId, ConstantUtil.managedBugsStatus);
 	}
 	
-	
+	/** full constructor */
 	public Managedbugs(Integer userInfoId, Integer bugInfoId, Integer status) {
 		this.userInfoId = userInfoId;
 		this.bugInfoId = bugInfoId;

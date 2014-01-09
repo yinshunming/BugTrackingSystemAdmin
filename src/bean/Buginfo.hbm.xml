@@ -51,9 +51,6 @@
         <property name="component" type="java.lang.String">
             <column name="component" />
         </property>
-        
-        <property name="managedStatus" type="java.lang.Integer">
-            <column name="managedStatus" />
-        </property>
+       
     </class>
 </hibernate-mapping>

@@ -9,12 +9,15 @@ import com.google.gwt.i18n.client.Constants;
 
 import dao.IBuginfoDAO;
 import dao.IManagedbugsDAO;
+import dao.IOwnerbugsDAO;
 import dao.IUserinfoDAO;
 import dao.impl.BuginfoDAOImpl;
 import database.DataMartAccess;
 import bean.Buginfo;
 import bean.Managedbugs;
+import bean.Ownerbugs;
 import bean.Userinfo;
+import bean.WarppedBuginfo;
 import service.IBuginfoService;
 import util.ConstantUtil;
 
@@ -22,7 +25,14 @@ public class BuginfoServiceImpl implements IBuginfoService{
 	private IBuginfoDAO buginfoDao;
 	private IUserinfoDAO userinfoDao;
 	private IManagedbugsDAO managedBugsDao;
+	private IOwnerbugsDAO ownerBugsDao;
 	
+	public IOwnerbugsDAO getOwnerBugsDao() {
+		return ownerBugsDao;
+	}
+	public void setOwnerBugsDao(IOwnerbugsDAO ownerBugsDao) {
+		this.ownerBugsDao = ownerBugsDao;
+	}
 	public IUserinfoDAO getUserinfoDao() {
 		return userinfoDao;
 	}
@@ -62,10 +72,14 @@ public class BuginfoServiceImpl implements IBuginfoService{
  			buginfoDao.save(bg);
 			
 			List<Userinfo> userinfoList = userinfoDao.findByUsername(username);
-
+			
 			if (userinfoList != null && userinfoList.size() > 0) {
 				Userinfo ui = userinfoList.get(0);
-				if ( !ui.getOneBugFullName().equals(owner) ) {  //needs to add to one's managed list
+				if (ui.getOneBugFullName().equals(owner)) {
+					Ownerbugs ob = new Ownerbugs(ui.getId(), bg.getId());
+					ownerBugsDao.save(ob);
+					
+				} else {  //needs to add to one's managed list
 					Managedbugs mb = new Managedbugs(ui.getId(), bg.getId());
 					
 					managedBugsDao.save(mb);
@@ -76,28 +90,27 @@ public class BuginfoServiceImpl implements IBuginfoService{
 	}
 	
 	@Override
-	public List<Buginfo> getBuginfoListByUserName(String username, boolean managed) {
+	public List<Buginfo> getBuginfoListByUserName(String username) {
 		// TODO Auto-generated method stub
 		List<Userinfo> userinfoList = userinfoDao.findByUsername(username);
 		List<Buginfo> buginfoList = null;
-		if (managed) {
-			if (userinfoList != null && userinfoList.size() > 0) {
-				Userinfo ui = userinfoList.get(0);
-				List<Buginfo> buginfoTempList = buginfoDao.findByOwner(ui.getOneBugFullName());
-				if (buginfoTempList != null && buginfoTempList.size() > 0) {
-					buginfoList = new ArrayList<Buginfo>();
-					for (Buginfo bi : buginfoTempList) {
-						if (bi.getManagedStatus() == 0) {
-							buginfoList.add(bi);
-						}
-					}
+		
+		if (userinfoList != null && userinfoList.size() > 0) {
+			Userinfo ui = userinfoList.get(0);
+			
+			List<Ownerbugs> ownerbugsList = ownerBugsDao.findByUserInfoId(ui.getId());
+			if (ownerbugsList.size() > 0) {
+				buginfoList = new ArrayList<Buginfo> ();
+			}
+		
+			for (Ownerbugs ownerbug : ownerbugsList) {
+				if (ownerbug.getStatus().equals(ConstantUtil.managedBugsStatus)) {
+					Buginfo bi = buginfoDao.findById(ownerbug.getBugInfoId());
+					if (bi != null)
+						buginfoList.add(bi);
 				}
 			}
-		}  else {
-			if (userinfoList != null && userinfoList.size() > 0) {
-				Userinfo ui = userinfoList.get(0);
-				buginfoList = buginfoDao.findByOwner(ui.getOneBugFullName());
-			}
+
 		}
 		
 		return buginfoList;
@@ -145,6 +158,8 @@ public class BuginfoServiceImpl implements IBuginfoService{
 					newBuginfo.setId(oldBuginfo.getId());
 				}
 				
+ 				
+ 				/*
 				List<Userinfo> ui = userinfoDao.findByUsername(username);
 				
 				if (ui != null && ui.size() > 0 && newBuginfo != null) {
@@ -154,15 +169,17 @@ public class BuginfoServiceImpl implements IBuginfoService{
 				
 					buginfoDao.update(newBuginfo);
 				}
-	
+				*/
 			} else if (value.equals(ConstantUtil.ingoreStr)) {
 				
+				/*
 				Buginfo deleteBuginfo = buginfoDao.findById(Integer.valueOf(id));
 				
 				if (deleteBuginfo != null ) {
 					deleteBuginfo.setManagedStatus(ConstantUtil.ingoredBugsStatus);
 					buginfoDao.update(deleteBuginfo);
 				}
+				*/
 			}
 			
 		}
@@ -192,38 +209,63 @@ public class BuginfoServiceImpl implements IBuginfoService{
 		}
 	}
 	@Override
-	public void deleteById(String username, Integer id) {
+	public void deleteById(String username, Integer managedBugId, Integer id) {
 		// TODO Auto-generated method stub
+		// TODO Auto-generated method stub
+		Ownerbugs mbgs = ownerBugsDao.findById(managedBugId);
 		Buginfo bi = buginfoDao.findById(id);
-		if (bi != null) {
-			List<Userinfo> uiList =  userinfoDao.findByUsername(username);
-			if (uiList != null && uiList.size() > 0) {
-				Userinfo ui = uiList.get(0);
-				if (ui.getUsername().equals(username)) {
-					buginfoDao.delete(bi);
+		if (mbgs != null && bi != null && bi.getId().equals(mbgs.getBugInfoId())) {
+			Userinfo ui = userinfoDao.findById(mbgs.getUserInfoId());
+			if (ui != null && ui.getUsername().equals(username)) {
+				ownerBugsDao.delete(mbgs);
+				buginfoDao.delete(bi);
+			}
+		}
+	}
+	@Override
+	public void operateBuginfoByUserName(String username, Integer managedBugId, Integer id, String operate) {
+		// TODO Auto-generated method stub
+		Ownerbugs mbgs = ownerBugsDao.findById(managedBugId);
+		Buginfo bi = buginfoDao.findById(id);
+		if (mbgs != null && bi != null && bi.getId().equals(mbgs.getBugInfoId())) {
+			Userinfo ui = userinfoDao.findById(mbgs.getUserInfoId());
+			if (ui != null && ui.getUsername().equals(username)) {
+				if (operate.equals(ConstantUtil.ingoreCmd)) {
+					mbgs.setStatus(ConstantUtil.ingoredBugsStatus);
+					 ownerBugsDao.update(mbgs);
+				} else if (operate.equals(ConstantUtil.resotoreCmd)) {
+					mbgs.setStatus(ConstantUtil.managedBugsStatus);
+					 ownerBugsDao.update(mbgs);
 				}
 			}
 		}
 	}
 	@Override
-	public void operateBuginfoByUserName(String username, Integer id, String operate) {
+	public List<WarppedBuginfo> getHistoryOwnerBuginfoListByUserName(String username) {
 		// TODO Auto-generated method stub
-				Buginfo bi = buginfoDao.findById(id);
-				if (bi != null) {
-					List<Userinfo> uiList =  userinfoDao.findByUsername(username);
-					if (uiList != null && uiList.size() > 0) {
-						Userinfo ui = uiList.get(0);
-						if (ui.getUsername().equals(username)) {
-							if (operate.equals(ConstantUtil.ingoreCmd)) {
-								bi.setManagedStatus(ConstantUtil.ingoredBugsStatus);
-								buginfoDao.update(bi);
-							} else if (operate.equals(ConstantUtil.resotoreCmd)) {
-								bi.setManagedStatus(ConstantUtil.managedBugsStatus);
-								buginfoDao.update(bi);
-							}
-						}
+		List<Userinfo> userinfoList = userinfoDao.findByUsername(username);
+		List<WarppedBuginfo> buginfoList = null;
+		
+		if (userinfoList != null && userinfoList.size() > 0) {
+			Userinfo ui = userinfoList.get(0);
+			
+			List<Ownerbugs> ownerbugsList = ownerBugsDao.findByUserInfoId(ui.getId());
+			if (ownerbugsList != null && ownerbugsList.size() > 0) {
+				buginfoList = new ArrayList<WarppedBuginfo>();
+				for (Ownerbugs ownerbug : ownerbugsList) {
+					Buginfo bi = buginfoDao.findById(ownerbug.getBugInfoId());
+					if (bi != null) {
+						WarppedBuginfo wb = new WarppedBuginfo(bi, ownerbug.getStatus(), ownerbug.getId());
+						buginfoList.add(wb);
 					}
 				}
+
+			}
+		
+		}
+		
+		return buginfoList;
+
 	}
 
 	

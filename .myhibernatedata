@@ -1,5 +1,5 @@
 #MyEclipse Hibernate Properties
-#Thu Dec 05 09:39:13 CST 2013
+#Wed Jan 08 16:21:15 CST 2014
 genBasicCompId=false
 sessionFactoryName=
 profile=
@@ -10,7 +10,7 @@ reStrategyClass=
 detectO2O=false
 springDaoFile=WebRoot/WEB-INF/restlet-servlet.xml
 useJavaTypes=true
-keyGenerator=
+keyGenerator=increment
 genVersionTag=false
 sessionFactoryId=sessionFactory
 basePersistenceClass=

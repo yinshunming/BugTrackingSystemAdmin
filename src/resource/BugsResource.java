@@ -58,7 +58,6 @@ public class BugsResource extends ServerResource{
 	
 	@Put
 	public Representation put(Representation entity) {
-		System.out.println("putting putting!");
 		String username = this.getRequest().getChallengeResponse().getIdentifier();
 		Form form = new Form(entity);  
 		

@@ -13,6 +13,7 @@ import org.restlet.resource.Put;
 import org.restlet.resource.ServerResource;
 
 import bean.Buginfo;
+import bean.WarppedBuginfo;
 
 import service.IBuginfoService;
 import util.Helper;
@@ -24,7 +25,7 @@ public class OwnerBugsResource extends ServerResource{
 	public Representation get(Representation entity) {
 		String username = this.getRequest().getChallengeResponse().getIdentifier();
 		
-		List<Buginfo> buginfoList = buginfoService.getBuginfoListByUserName(username, false);
+		List<WarppedBuginfo> buginfoList = buginfoService.getHistoryOwnerBuginfoListByUserName(username);
 		
 		JSONArray returnjn = Helper.convertFromList(buginfoList);
 		return new JsonRepresentation(returnjn);
@@ -37,8 +38,9 @@ public class OwnerBugsResource extends ServerResource{
 		Form form = getRequest().getResourceRef().getQueryAsForm();  
 		String id = form.getFirstValue("id");
 		String operate = form.getFirstValue("operate");
+		String managedBugId = form.getFirstValue("managedBugId");
 		
-		buginfoService.operateBuginfoByUserName(username, Integer.valueOf(id), operate);
+		buginfoService.operateBuginfoByUserName(username, Integer.valueOf(managedBugId), Integer.valueOf(id), operate);
 		return new StringRepresentation("operating ok!");
 	}
 	
@@ -48,8 +50,10 @@ public class OwnerBugsResource extends ServerResource{
 		
 		Form form = getRequest().getResourceRef().getQueryAsForm();  
 		String id = form.getFirstValue("id");
-		buginfoService.deleteById(username, Integer.valueOf(id));
+		String managedBugId = form.getFirstValue("managedBugId");
 		
+		buginfoService.deleteById(username, Integer.valueOf(managedBugId), Integer.valueOf(id));
+
 		return new StringRepresentation("deleting ok!");
 	}
 	

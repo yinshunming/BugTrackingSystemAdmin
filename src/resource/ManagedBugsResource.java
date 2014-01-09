@@ -30,7 +30,7 @@ public class ManagedBugsResource extends ServerResource{
 	public Representation get(Representation entity) {
 		
 		String username = this.getRequest().getChallengeResponse().getIdentifier();
-		List<WarppedBuginfo> historyBuginfoMap = managedbugsService.getHistroyBugsByUserName(username);
+		List<WarppedBuginfo> historyBuginfoMap = managedbugsService.getHistroyManagedBugsByUserName(username);
 		
 		JSONArray returnjn = Helper.convertFromList(historyBuginfoMap);
 		

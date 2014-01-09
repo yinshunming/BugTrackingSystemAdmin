@@ -28,6 +28,8 @@ public class RereshResource extends ServerResource{
 	
 	@Get
 	public Representation get(Representation entity) {
+		
+		/*
 		String username = this.getRequest().getChallengeResponse().getIdentifier();
 		
 		List<Buginfo> ownerBuginfoList = buginfoService.getBuginfoListByUserName(username, true);
@@ -37,5 +39,7 @@ public class RereshResource extends ServerResource{
 		JSONArray return_arr = Helper.convertFromList(differentBuginfo);
 		
 		return new JsonRepresentation(return_arr);
+		*/
+		return null;
 	}
 }

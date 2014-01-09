@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Map;
 
 import bean.Buginfo;
+import bean.WarppedBuginfo;
 
 public interface IBuginfoService {
 	public Buginfo getBuginfoById(String bugId); //from datamart
@@ -13,7 +14,7 @@ public interface IBuginfoService {
 	public void saveBuginfo(String username, String bugId, String component, String title, String project, String type, String status, String description, String owner,
 			String submitter, String sumitterData, String severity, String tags, String regression);
 	
-	public List<Buginfo> getBuginfoListByUserName(String username, boolean managed);
+	public List<Buginfo> getBuginfoListByUserName(String username);
 	
 	public Buginfo getBuginfoByBugId(String bugId); //from local database
 	
@@ -23,7 +24,9 @@ public interface IBuginfoService {
 	
 	public void updateStatus(Integer id, String bugId, String status);
 	
-	public void deleteById(String username, Integer id);
+	public void deleteById(String username, Integer managedBugId, Integer id);
 
-	public void operateBuginfoByUserName(String username, Integer id, String operate);
+	public void operateBuginfoByUserName(String username, Integer managedBugId, Integer id, String operate);
+
+	public List<WarppedBuginfo> getHistoryOwnerBuginfoListByUserName(String username);
 }

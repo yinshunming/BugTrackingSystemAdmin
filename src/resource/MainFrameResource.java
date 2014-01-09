@@ -34,7 +34,7 @@ public class MainFrameResource extends ServerResource{
 	@Get
 	public Representation get(Representation entity) {		
 		String username = this.getRequest().getChallengeResponse().getIdentifier();
-		List<Buginfo> ownerBuginfoList = buginfoService.getBuginfoListByUserName(username, true);
+		List<Buginfo> ownerBuginfoList = buginfoService.getBuginfoListByUserName(username);
 		List<Buginfo> managedBuginfoList = managedbugsService.getManagedBugsByUserName(username);
 		
 		JSONObject returnjn = new JSONObject();

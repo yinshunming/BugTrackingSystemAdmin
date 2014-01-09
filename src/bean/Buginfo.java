@@ -24,7 +24,7 @@ public class Buginfo implements java.io.Serializable {
 	private String tags;
 	private String regression;
 	private String component;
-	private Integer managedStatus;
+
 
 	// Constructors
 
@@ -33,13 +33,7 @@ public class Buginfo implements java.io.Serializable {
 	public Buginfo() {
 	}
 
-	public Integer getManagedStatus() {
-		return managedStatus;
-	}
 
-	public void setManagedStatus(Integer managedStatus) {
-		this.managedStatus = managedStatus;
-	}
 
 	/** full constructor */
 	public Buginfo(String bugId, String title, String project, String type, String status,
@@ -59,11 +53,10 @@ public class Buginfo implements java.io.Serializable {
 		this.tags = tags;
 		this.regression = regression;
 		this.component = component;
-		this.managedStatus = 0;
+
 	}
 
 	// Property accessors
-
 	public Integer getId() {
 		return this.id;
 	}

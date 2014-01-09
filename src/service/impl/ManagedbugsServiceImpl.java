@@ -75,7 +75,7 @@ public class ManagedbugsServiceImpl implements IManagedbugsService{
 	}
 
 
-	public List<WarppedBuginfo> getHistroyBugsByUserName(String username) {
+	public List<WarppedBuginfo> getHistroyManagedBugsByUserName(String username) {
 		// TODO Auto-generated method stub
 		
 		List<Userinfo> userinfoList = userinfoDao.findByUsername(username);
