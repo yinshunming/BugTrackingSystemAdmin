@@ -19,5 +19,8 @@
         <property name="status" type="java.lang.Integer">
             <column name="status" />
         </property>
+        <property name="changed" type="java.lang.Integer">
+            <column name="changed" />
+        </property>
     </class>
 </hibernate-mapping>

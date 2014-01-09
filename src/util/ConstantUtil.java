@@ -8,6 +8,9 @@ public class ConstantUtil {
 	public static Integer managedBugsStatus = 0;
 	public static Integer ingoredBugsStatus = 1;
 	
+	public static Integer ownerNotChanged = 0;
+	public static Integer ownerChanged = 1;
+	
 	public static String ingoreCmd = "ingore";
 	public static String resotoreCmd = "restore";
 }

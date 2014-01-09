@@ -14,21 +14,32 @@ public class Ownerbugs implements java.io.Serializable {
 	private Integer userInfoId;
 	private Integer bugInfoId;
 	private Integer status;
+	private Integer changed;
 
 	// Constructors
+
+	public Integer getChanged() {
+		return changed;
+	}
+
+	public void setChanged(Integer changed) {
+		this.changed = changed;
+	}
 
 	/** default constructor */
 	public Ownerbugs() {
 	}
 
 	public Ownerbugs(Integer userInfoId, Integer bugInfoId) {
-		this(userInfoId, bugInfoId, ConstantUtil.managedBugsStatus);
+		this(userInfoId, bugInfoId, ConstantUtil.managedBugsStatus, ConstantUtil.ownerNotChanged);
 	}
+	
 	/** full constructor */
-	public Ownerbugs(Integer userInfoId, Integer bugInfoId, Integer status) {
+	public Ownerbugs(Integer userInfoId, Integer bugInfoId, Integer status, Integer changed) {
 		this.userInfoId = userInfoId;
 		this.bugInfoId = bugInfoId;
 		this.status = status;
+		this.changed = changed;
 	}
 	
 
