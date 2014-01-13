@@ -14,19 +14,13 @@ public interface IBuginfoService {
 	public void saveBuginfo(String username, String bugId, String component, String title, String project, String type, String status, String description, String owner,
 			String submitter, String sumitterData, String severity, String tags, String regression);
 	
-	public List<Buginfo> getBuginfoListByUserName(String username);
 	
 	public Buginfo getBuginfoByBugId(String bugId); //from local database
 	
 	public List<Buginfo> refreshBuginfo(List<Buginfo> ownerBuginfoList);
 	
-	public List<Buginfo> modifyBugCategory(Map<String, String> modifies, String username);
+	//public List<Buginfo> modifyBugCategory(Map<String, String> modifies, String username);
 	
 	public void updateStatus(Integer id, String bugId, String status);
 	
-	public void deleteById(String username, Integer managedBugId, Integer id);
-
-	public void operateBuginfoByUserName(String username, Integer managedBugId, Integer id, String operate);
-
-	public List<WarppedBuginfo> getHistoryOwnerBuginfoListByUserName(String username);
 }

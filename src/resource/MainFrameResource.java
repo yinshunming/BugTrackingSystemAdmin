@@ -13,15 +13,17 @@ import org.restlet.resource.Get;
 import org.restlet.resource.ServerResource;
 
 import bean.Buginfo;
+import bean.WarppedBuginfo;
 
 import service.IBuginfoService;
 import service.IManagedbugsService;
+import service.IOwnerbugsService;
 import util.Helper;
 
 public class MainFrameResource extends ServerResource{
-	private IBuginfoService buginfoService;
+
+	private IOwnerbugsService ownerbugsService;
 	private IManagedbugsService managedbugsService;
-	
 	
 	public IManagedbugsService getManagedbugsService() {
 		return managedbugsService;
@@ -34,13 +36,15 @@ public class MainFrameResource extends ServerResource{
 	@Get
 	public Representation get(Representation entity) {		
 		String username = this.getRequest().getChallengeResponse().getIdentifier();
-		List<Buginfo> ownerBuginfoList = buginfoService.getBuginfoListByUserName(username);
+		List<Buginfo> ownerBuginfoList = ownerbugsService.getOwnerBuginfoListByUserName(username);
 		List<Buginfo> managedBuginfoList = managedbugsService.getManagedBugsByUserName(username);
+		List<WarppedBuginfo> changedBuginoList = ownerbugsService.getChangedListByUserName(username);
 		
 		JSONObject returnjn = new JSONObject();
 		try {
 			returnjn.put("ownerList", Helper.convertFromList(ownerBuginfoList));
 			returnjn.put("managedList", Helper.convertFromList(managedBuginfoList));
+			returnjn.put("changedList", Helper.convertFromList(changedBuginoList));
 		} catch (JSONException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -49,12 +53,11 @@ public class MainFrameResource extends ServerResource{
 		return new JsonRepresentation(returnjn);
 	}
 
-	public IBuginfoService getBuginfoService() {
-		return buginfoService;
+	public IOwnerbugsService getOwnerbugsService() {
+		return ownerbugsService;
 	}
 
-	public void setBuginfoService(IBuginfoService buginfoService) {
-		
-		this.buginfoService = buginfoService;
+	public void setOwnerbugsService(IOwnerbugsService ownerbugsService) {
+		this.ownerbugsService = ownerbugsService;
 	}
 }

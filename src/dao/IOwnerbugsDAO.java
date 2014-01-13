@@ -11,4 +11,6 @@ public interface IOwnerbugsDAO {
 	public Ownerbugs findById(java.lang.Integer id);
 	public void delete(Ownerbugs persistentInstance);
 	public void update(Ownerbugs instance);
+	public List findAll();
+	public List findByBugInfoId(Object bugInfoId);
 }

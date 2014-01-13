@@ -2,6 +2,7 @@ package test;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.util.List;
 
 import crawl.CrawlOneBugDelegate;
 import crawl.CrawlOneBugService;
@@ -39,11 +40,12 @@ public class Test {
 	}
 	
 	public static void main(String args[]) {
-		String request = "1";
-		String response = null;
-		CrawlOneBugService cos = new CrawlOneBugService();
-		CrawlOneBugDelegate cod = cos.getCrawlOneBugPort();
-		response = cod.crawlFromOneBug(request);
-		System.out.println(response);
+//		String request = "1";
+//		String response = null;
+//		CrawlOneBugService cos = new CrawlOneBugService();
+//		CrawlOneBugDelegate cod = cos.getCrawlOneBugPort();
+//		response = cod.crawlFromOneBug(request);
+//		System.out.println(response);
+
 	} 
 }

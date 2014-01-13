@@ -38,7 +38,7 @@ CREATE TABLE `buginfo` (
   `regression` varchar(255) DEFAULT NULL,
   `component` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=33 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -47,6 +47,7 @@ CREATE TABLE `buginfo` (
 
 LOCK TABLES `buginfo` WRITE;
 /*!40000 ALTER TABLE `buginfo` DISABLE KEYS */;
+INSERT INTO `buginfo` VALUES (1,'0410174','G11N: JA: The title in the PDF document exported from Trends page of Director gets truncated.','Jasper','Failure','Assigned','<[1376535206]> - Jingjing Mao (3P):\r\nContact person:\r\n=============\r\nTest Engineer email ID: jingjing.mao@pactera.com (cc:Hideaki.Fujiwara@citrix.co.jp)\r\n\r\nEnvironment:\r\n=======\r\nController: JA WS2012R2 + Bruin #4010\r\nClient: JA Win8.1-32 + Bruin #4010\r\nBrowser: IE 11\r\n\r\nRepro steps:\r\n=======\r\n1. Prepare XenDesktop environment.\r\n2. Publish VDI desktop and RDS desktop.\r\n3. Open Desktop Director.\r\n4. Navigate to Trends page.\r\n5. Under Session tab, randomly select a Time period and click Apply button.\r\n6. Click “Export graph(PDF)” button and open the PDF document\r\n7. Make sure the title of PDF document gets truncated. (See “JA_Bruin#4010_Session.pdf”)\r\n\r\nAddition Info:\r\n=======\r\n1. It is not reproduced on Excalibur RTM.\r\n2. It is also reproduced under Connection tab, Failed Desktop OS Machines tab, Failed Server OS Machines tab, Logon Performance tab, Load Evaluator Index tab.\r\n3. It is also reproduced if client is JA Win8-32 (IE 10).\r\n\r\n<[1379468137]> - Ning Wang:\r\nthis issue reproduces in WS2012r2\r\n\r\n<[1380177842]> - Ning Wang:\r\npostship reason: only reproduce if ddc is WS2012R2.\r\ncustomer impact: low.\r\nworkaround: none.','1','Jingjing Mao (3P)','2013-08-15 02:53:26','S3 - Medium','G11N, I18N','Yes',NULL);
 /*!40000 ALTER TABLE `buginfo` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -63,9 +64,8 @@ CREATE TABLE `managedbugs` (
   `bugInfoId` int(11) DEFAULT NULL,
   `status` int(11) DEFAULT '0' COMMENT '0 represents not deleted. 1 represents having been deleted',
   PRIMARY KEY (`id`),
-  KEY `FK_userInfo` (`userInfoId`),
-  KEY `FK_bugInfo` (`bugInfoId`)
-) ENGINE=InnoDB AUTO_INCREMENT=20 DEFAULT CHARSET=utf8;
+  UNIQUE KEY `unique` (`userInfoId`,`bugInfoId`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -90,7 +90,8 @@ CREATE TABLE `ownerbugs` (
   `bugInfoId` int(11) DEFAULT NULL,
   `status` int(2) DEFAULT '0',
   `changed` int(2) DEFAULT '0',
-  PRIMARY KEY (`id`)
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `unique` (`userInfoId`,`bugInfoId`) USING BTREE
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -100,6 +101,7 @@ CREATE TABLE `ownerbugs` (
 
 LOCK TABLES `ownerbugs` WRITE;
 /*!40000 ALTER TABLE `ownerbugs` DISABLE KEYS */;
+INSERT INTO `ownerbugs` VALUES (1,1,1,1,1);
 /*!40000 ALTER TABLE `ownerbugs` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -117,7 +119,7 @@ CREATE TABLE `userinfo` (
   `oneBugFullName` varchar(255) DEFAULT NULL,
   `email` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -126,7 +128,7 @@ CREATE TABLE `userinfo` (
 
 LOCK TABLES `userinfo` WRITE;
 /*!40000 ALTER TABLE `userinfo` DISABLE KEYS */;
-INSERT INTO `userinfo` VALUES (6,'1','1','Vincent Huang','1');
+INSERT INTO `userinfo` VALUES (1,'1','1','1','1');
 /*!40000 ALTER TABLE `userinfo` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -139,4 +141,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2014-01-09 14:00:03
+-- Dump completed on 2014-01-13 10:32:20

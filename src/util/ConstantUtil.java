@@ -13,4 +13,6 @@ public class ConstantUtil {
 	
 	public static String ingoreCmd = "ingore";
 	public static String resotoreCmd = "restore";
+	
+	public static String separator = "_";
 }

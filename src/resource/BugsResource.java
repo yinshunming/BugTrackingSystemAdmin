@@ -15,10 +15,12 @@ import org.restlet.resource.ServerResource;
 import bean.Buginfo;
 
 import service.IBuginfoService;
+import service.IOwnerbugsService;
 
 public class BugsResource extends ServerResource{
 	
 	private IBuginfoService buginfoService;
+	private IOwnerbugsService ownerbugsService;
 	
 	@Post 
 	public Representation post(Representation entity) {
@@ -56,6 +58,8 @@ public class BugsResource extends ServerResource{
 		return new JsonRepresentation(new JSONObject(bi));
 	}
 	
+	
+	/*
 	@Put
 	public Representation put(Representation entity) {
 		String username = this.getRequest().getChallengeResponse().getIdentifier();
@@ -67,7 +71,18 @@ public class BugsResource extends ServerResource{
 		
 		return new StringRepresentation("Modify OK");
 	}
+	*/
 	
+	@Put
+	public Representation put(Representation entity) {
+		String username = this.getRequest().getChallengeResponse().getIdentifier();
+		Form form = new Form(entity);  
+		
+		Map<String, String> radio_map = form.getValuesMap();
+		ownerbugsService.modifyBugCategory(radio_map, username);
+		
+		return new StringRepresentation("modifying ok!");
+	}
 	
 	public IBuginfoService getBuginfoService() {
 		return buginfoService;
@@ -75,5 +90,13 @@ public class BugsResource extends ServerResource{
 	
 	public void setBuginfoService(IBuginfoService buginfoService) {
 		this.buginfoService = buginfoService;
+	}
+
+	public IOwnerbugsService getOwnerbugsService() {
+		return ownerbugsService;
+	}
+
+	public void setOwnerbugsService(IOwnerbugsService ownerbugsService) {
+		this.ownerbugsService = ownerbugsService;
 	}
 }

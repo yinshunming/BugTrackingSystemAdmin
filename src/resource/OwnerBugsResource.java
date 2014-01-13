@@ -16,16 +16,25 @@ import bean.Buginfo;
 import bean.WarppedBuginfo;
 
 import service.IBuginfoService;
+import service.IOwnerbugsService;
 import util.Helper;
 
 public class OwnerBugsResource extends ServerResource{
-	private IBuginfoService buginfoService;
+	private IOwnerbugsService ownerbugsService;
 	
+	public IOwnerbugsService getOwnerbugsService() {
+		return ownerbugsService;
+	}
+
+	public void setOwnerbugsService(IOwnerbugsService ownerbugsService) {
+		this.ownerbugsService = ownerbugsService;
+	}
+
 	@Get 
 	public Representation get(Representation entity) {
 		String username = this.getRequest().getChallengeResponse().getIdentifier();
 		
-		List<WarppedBuginfo> buginfoList = buginfoService.getHistoryOwnerBuginfoListByUserName(username);
+		List<WarppedBuginfo> buginfoList = ownerbugsService.getHistoryOwnerBuginfoListByUserName(username);
 		
 		JSONArray returnjn = Helper.convertFromList(buginfoList);
 		return new JsonRepresentation(returnjn);
@@ -40,7 +49,7 @@ public class OwnerBugsResource extends ServerResource{
 		String operate = form.getFirstValue("operate");
 		String managedBugId = form.getFirstValue("managedBugId");
 		
-		buginfoService.operateBuginfoByUserName(username, Integer.valueOf(managedBugId), Integer.valueOf(id), operate);
+		ownerbugsService.operateBuginfoByUserName(username, Integer.valueOf(managedBugId), Integer.valueOf(id), operate);
 		return new StringRepresentation("operating ok!");
 	}
 	
@@ -52,16 +61,18 @@ public class OwnerBugsResource extends ServerResource{
 		String id = form.getFirstValue("id");
 		String managedBugId = form.getFirstValue("managedBugId");
 		
-		buginfoService.deleteById(username, Integer.valueOf(managedBugId), Integer.valueOf(id));
+		ownerbugsService.deleteById(username, Integer.valueOf(managedBugId), Integer.valueOf(id));
 
 		return new StringRepresentation("deleting ok!");
 	}
-	
-	public IBuginfoService getBuginfoService() {
-		return buginfoService;
+
+	public IOwnerbugsService getBuginfoService() {
+		return ownerbugsService;
+	}
+
+	public void setBuginfoService(IOwnerbugsService buginfoService) {
+		this.ownerbugsService = buginfoService;
 	}
 	
-	public void setBuginfoService(IBuginfoService buginfoService) {
-		this.buginfoService = buginfoService;
-	}
+	
 }

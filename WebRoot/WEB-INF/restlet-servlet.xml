@@ -11,15 +11,15 @@
            http://www.springframework.org/schema/aop   
            http://www.springframework.org/schema/aop/spring-aop-2.5.xsd">
 	
-	<!--  
+	 
 	<task:scheduled-tasks>   
-        <task:scheduled ref="taskJob" method="job1" cron="3/1 * * * * ?"/>   
+        <task:scheduled ref="checkOwner" method="check" cron="3/60 * * * * ?"/>   
 	</task:scheduled-tasks>  
 
-	
-	<bean id="taskJob" class="test.TaskJob">
+	<bean id="checkOwner" class="timer.CheckOwnerTimer">
+			<property name="ownerbugsDao" ref="ownerbugsDAO"></property> 
+			<property name="buginfoDao" ref="buginfoDAO"></property> 
 	</bean>
-	-->
 	
 	<bean id="dataSource"
 			class="org.apache.commons.dbcp.BasicDataSource">
@@ -119,15 +119,17 @@
 	
 	<bean id="bugResource" class="resource.BugResource" scope="prototype">
 		<property name="bugInfoService" ref="buginfoService"/>
+		
 	</bean>
 	
 	<bean id="bugsResource" class="resource.BugsResource" scope="prototype">
 		<property name="buginfoService" ref="buginfoService"/>
+		<property name="ownerbugsService" ref="ownerbugsService"/>
 	</bean>
 	
 	<bean id="mainFrameResource" class="resource.MainFrameResource" scope="prototype">
-		<property name="buginfoService" ref="buginfoService"/>
 		<property name="managedbugsService" ref="managedbugsService"/>
+		<property name="ownerbugsService" ref="ownerbugsService"/>
 	</bean>
 	
 	<bean id="refreshResource" class="resource.RereshResource" scope="prototype">
@@ -147,10 +149,14 @@
 	</bean>
 	
 	<bean id="ownerBugsResource" class="resource.OwnerBugsResource" scope="prototype">
-		<property name="buginfoService" ref="buginfoService"/>
+		<property name="ownerbugsService" ref="ownerbugsService"/>
 	</bean>
 	
 	<bean id="logoutResource" class="resource.LogoutResource" scope="prototype">
+	</bean>
+	
+	<bean id="ownerChangedBugsResource" class="resource.OwnerChangedBugsResource">
+		<property name="ownerbugsService" ref="ownerbugsService"/>
 	</bean>
 	
 	
@@ -220,8 +226,12 @@
 	                   		<lookup-method name="create" bean="logoutResource" />  
 	                   	</bean>
                    	</entry>
-             
-                
+                	
+                	<entry key="/ownerChangedBugs">
+	                	<bean class="org.restlet.ext.spring.SpringFinder">
+		                   		<lookup-method name="create" bean="ownerChangedBugsResource" />  
+		                </bean>
+                	</entry>
 			</map>
 		</property>
 	</bean>
@@ -233,6 +243,15 @@
 		</property>
 		<property name="managedBugsDao" ref="managedbugsDAO"/>
 		<property name="ownerBugsDao" ref="ownerbugsDAO"/>
+	</bean>
+	
+	<bean id="ownerbugsService" class="service.impl.OwnerbugsServiceImpl">
+		<property name="buginfoDao" ref="buginfoDAO">
+		</property>
+		<property name="userinfoDao" ref="userinfoDAO">
+		</property>
+		<property name="ownerBugsDao" ref="ownerbugsDAO"/>
+		<property name="managedBugsDao" ref="managedbugsDAO"/>
 	</bean>
 	
 	<bean id="managedbugsService" class="service.impl.ManagedbugsServiceImpl">
