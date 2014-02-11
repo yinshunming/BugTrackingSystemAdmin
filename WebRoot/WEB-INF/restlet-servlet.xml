@@ -13,7 +13,7 @@
 	
 	 
 	<task:scheduled-tasks>   
-        <task:scheduled ref="checkOwner" method="check" cron="3/60 * * * * ?"/>   
+        <task:scheduled ref="checkOwner" method="check" cron="0 0/30 * * * ?"/>   
 	</task:scheduled-tasks>  
 
 	<bean id="checkOwner" class="timer.CheckOwnerTimer">
@@ -142,6 +142,7 @@
 	
 	<bean id="userResource" class="resource.UserResource" scope="prototype">
 		<property name="userinfoService" ref="userinfoService" />
+		<property name="buginfoService" ref="buginfoService"/>
 	</bean>
 	
 	<bean id="bugStatusResource" class="resource.BugStatusResource" scope="prototype">

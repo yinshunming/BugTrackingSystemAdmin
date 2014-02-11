@@ -1,12 +1,13 @@
 package bean;
 
 import java.sql.Timestamp;
+import java.util.Comparator;
 
 /**
  * Buginfo entity. @author MyEclipse Persistence Tools
  */
 
-public class Buginfo implements java.io.Serializable {
+public class Buginfo implements java.io.Serializable{
 
 	// Fields
 
@@ -168,5 +169,8 @@ public class Buginfo implements java.io.Serializable {
 	public void setProject(String project) {
 		this.project = project;
 	}
+
+
+
 
 }

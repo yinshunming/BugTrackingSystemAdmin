@@ -38,7 +38,7 @@ CREATE TABLE `buginfo` (
   `regression` varchar(255) DEFAULT NULL,
   `component` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=19 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -47,7 +47,7 @@ CREATE TABLE `buginfo` (
 
 LOCK TABLES `buginfo` WRITE;
 /*!40000 ALTER TABLE `buginfo` DISABLE KEYS */;
-INSERT INTO `buginfo` VALUES (1,'0410174','G11N: JA: The title in the PDF document exported from Trends page of Director gets truncated.','Jasper','Failure','Assigned','<[1376535206]> - Jingjing Mao (3P):\r\nContact person:\r\n=============\r\nTest Engineer email ID: jingjing.mao@pactera.com (cc:Hideaki.Fujiwara@citrix.co.jp)\r\n\r\nEnvironment:\r\n=======\r\nController: JA WS2012R2 + Bruin #4010\r\nClient: JA Win8.1-32 + Bruin #4010\r\nBrowser: IE 11\r\n\r\nRepro steps:\r\n=======\r\n1. Prepare XenDesktop environment.\r\n2. Publish VDI desktop and RDS desktop.\r\n3. Open Desktop Director.\r\n4. Navigate to Trends page.\r\n5. Under Session tab, randomly select a Time period and click Apply button.\r\n6. Click “Export graph(PDF)” button and open the PDF document\r\n7. Make sure the title of PDF document gets truncated. (See “JA_Bruin#4010_Session.pdf”)\r\n\r\nAddition Info:\r\n=======\r\n1. It is not reproduced on Excalibur RTM.\r\n2. It is also reproduced under Connection tab, Failed Desktop OS Machines tab, Failed Server OS Machines tab, Logon Performance tab, Load Evaluator Index tab.\r\n3. It is also reproduced if client is JA Win8-32 (IE 10).\r\n\r\n<[1379468137]> - Ning Wang:\r\nthis issue reproduces in WS2012r2\r\n\r\n<[1380177842]> - Ning Wang:\r\npostship reason: only reproduce if ddc is WS2012R2.\r\ncustomer impact: low.\r\nworkaround: none.','1','Jingjing Mao (3P)','2013-08-15 02:53:26','S3 - Medium','G11N, I18N','Yes',NULL);
+INSERT INTO `buginfo` VALUES (18,'0364881','G11n: I18n: SC: The text template in username label doesn’t disappear after pressing Shift key when using default Chinese input method on Win8x64 with Firefox 18.0.','Receiver for Web','Failure','Assigned','<[1359975102]> - Weitao Shen (3P):<br>--Repro Steps:<br>1. Prepared XA setup with Archer RTM build on SC Windows 2008R2 SP1.<br>2. Published some apps.<br>3. Prepared Storefront setup with build 46 on SC Windows 2012.<br>4. Hosted Store on above XA setup and create Web Receiver site.<br>5. From Windows 8 X64 client machine, browsed to WR site with Firefox 18.0.<br>7. Typed some words into username label using default Chinese input method.<br>8. Pressed Shift key and checked the text template in username label.<br><br>--Expected Result:<br>After press Shift key once time, English letters should be selected and inputted into username label, the text template should be disappears,<br><br>--Actual Result:<br>After pressed Shift key, English letters was selected and seems to be inputted into username label.<br>But at this time, the text template didn’t disappear and overlapping occurred.<br>After pressed Shift key again, the text template disappeared.<br><br>--Issue occurring on language:<br>SC: Win8x64 with Firefox 18.0: Fail<br>SC: Win8x64 with IE10: Pass<br>SC: Win7x86 with Firefox 18.0: Pass <br>SC: Win7x86 with IE9: Pass<br><br>--Note:<br>1. This issue is only reproduced in Win8x64 with Firefox in SC when using default Chinese input method.<br>2. When using a popular Chinese input method like “Sougou Pinyin”, this issue is not happened in Win8x64 with Firefox.<br><br>--Environment details:<br>XenApp: Archer RTM<br>Receiver Storefront: Build 46								 <br>Windows Receiver: Zeus4 RTM									             <br>Web Receiver OS: Win8x64								              <br>Browser: Firefox 18.0									               <br>Language: SC<br><br>--Contract person:<br>Weitao.shen@pactera.com                                                                                                  <br>CC:Shally.Garg@Citrix.com<br><br><[1365580671]> - Dariusz Sczcepaniak:<br>comment from Jun Zhang:<br><br>This issue isn’t a big problem, frankly I doubt whether end-user can find the difference.<br>This bug is similar to BUG0330993  and we believe they have the same root cause: IME and browser can’t match well, because of background signals are not triggered. <br>EphramW will work on BUG0330993 solution soon, and will update you once any founding.','Vincent Huang','Weitao Shen (3P)','2013-02-04 10:51:42','S4 - Low','','No',NULL);
 /*!40000 ALTER TABLE `buginfo` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -92,7 +92,7 @@ CREATE TABLE `ownerbugs` (
   `changed` int(2) DEFAULT '0',
   PRIMARY KEY (`id`),
   UNIQUE KEY `unique` (`userInfoId`,`bugInfoId`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -101,7 +101,7 @@ CREATE TABLE `ownerbugs` (
 
 LOCK TABLES `ownerbugs` WRITE;
 /*!40000 ALTER TABLE `ownerbugs` DISABLE KEYS */;
-INSERT INTO `ownerbugs` VALUES (1,1,1,1,1);
+INSERT INTO `ownerbugs` VALUES (1,4,18,0,0);
 /*!40000 ALTER TABLE `ownerbugs` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -119,7 +119,7 @@ CREATE TABLE `userinfo` (
   `oneBugFullName` varchar(255) DEFAULT NULL,
   `email` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -128,7 +128,7 @@ CREATE TABLE `userinfo` (
 
 LOCK TABLES `userinfo` WRITE;
 /*!40000 ALTER TABLE `userinfo` DISABLE KEYS */;
-INSERT INTO `userinfo` VALUES (1,'1','1','1','1');
+INSERT INTO `userinfo` VALUES (4,'admin','admin','Vincent Huang','yin-shun-ming@163.com');
 /*!40000 ALTER TABLE `userinfo` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -141,4 +141,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2014-01-13 10:32:20
+-- Dump completed on 2014-02-11 16:28:51

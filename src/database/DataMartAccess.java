@@ -8,7 +8,9 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 
 import bean.Buginfo;
@@ -55,6 +57,7 @@ public class DataMartAccess {
 	    			bi.setType(rs.getString("DefectType"));
 	    			bi.setStatus(rs.getString("State"));
 	    			bi.setDescription(rs.getString("Description"));
+
 	    			bi.setOwner(rs.getString("OwnerNm"));
 	    			bi.setSubmitter(rs.getString("SubmitterNm"));
 	    			bi.setProject(rs.getString("Project"));
@@ -130,6 +133,54 @@ public class DataMartAccess {
 		return returnList;
 	}
 	
+	public static List<Buginfo> getOwnerBuginfoList(String oneBugFullName) {
+		PreparedStatement ps = null;
+    	Connection ct = null;
+    	ResultSet rs = null;
+    	Buginfo bi = null;
+    	List<Buginfo> returnList = new ArrayList<Buginfo>();
+    	Set<String> bugidSet = new HashSet<String>();
+    	
+    	try {
+    		Class.forName(DriverName);
+    		ct = DriverManager.getConnection(DatabaseUrl);
+    		
+    		ps = ct.prepareStatement("select * from OB_Bugs where OwnerNm = ?");
+    		ps.setString(1, oneBugFullName);
+    		
+    		rs = ps.executeQuery();
+    		
+    		while(rs.next()) {
+    			String bugid = rs.getString("BUGID");
+    			if (!bugidSet.contains(bugid)) { 			
+	    			bi = new Buginfo();
+	    			bi.setBugId(rs.getString("BUGID"));
+	    			bi.setTitle(rs.getString("Title"));
+	    			bi.setType(rs.getString("DefectType"));
+	    			bi.setStatus(rs.getString("State"));
+	    			bi.setDescription(rs.getString("Description").replaceAll("\n", "<br>"));
+	    			bi.setOwner(rs.getString("OwnerNm"));
+	    			bi.setSubmitter(rs.getString("SubmitterNm"));
+	    			bi.setProject(rs.getString("Project"));
+	    			bi.setSubmitData(Timestamp.valueOf(rs.getString("SubmitDate")));
+	    			bi.setSeverity(rs.getString("Severity"));
+	    			bi.setTags(rs.getString("Tags"));
+	    			bi.setRegression(rs.getString("Regression"));
+	    			returnList.add(bi);
+	    			bugidSet.add(bugid);
+    			}
+    		}
+		
+    		rs.close();
+    		ps.close();
+    		ct.close();
+    	} catch (Exception ex) {
+    		ex.printStackTrace();
+    	}
+    	
+		return returnList;
+	}
+	
     public static Buginfo getBugInfoByBugId(String bugId) {
     	
     	PreparedStatement ps = null;
@@ -149,7 +200,7 @@ public class DataMartAccess {
     			bi.setTitle(rs.getString("Title"));
     			bi.setType(rs.getString("DefectType"));
     			bi.setStatus(rs.getString("State"));
-    			bi.setDescription(rs.getString("Description"));
+    			bi.setDescription(rs.getString("Description").replaceAll("\n", "<br>"));
     			bi.setOwner(rs.getString("OwnerNm"));
     			bi.setSubmitter(rs.getString("SubmitterNm"));
     			bi.setProject(rs.getString("Project"));

@@ -9,9 +9,11 @@ import bean.WarppedBuginfo;
 public interface IBuginfoService {
 	public Buginfo getBuginfoById(String bugId); //from datamart
 	
+	public void addOwnerBuginfoList(String oneBugFullName, String username); //from datamart
+	
 	public Buginfo getBuginfoFromLocalById(Integer id);
 	
-	public void saveBuginfo(String username, String bugId, String component, String title, String project, String type, String status, String description, String owner,
+	public String saveBuginfo(String username, String bugId, String component, String title, String project, String type, String status, String description, String owner,
 			String submitter, String sumitterData, String severity, String tags, String regression);
 	
 	

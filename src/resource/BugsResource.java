@@ -40,9 +40,9 @@ public class BugsResource extends ServerResource{
 		String regression = form.getFirstValue("regression");
 		
 		String username = this.getRequest().getChallengeResponse().getIdentifier();
-		buginfoService.saveBuginfo(username, bugId, component, title, project,  type, status, description, owner, submitter, submitData, severity, tags, regression);
+		String returnStr = buginfoService.saveBuginfo(username, bugId, component, title, project,  type, status, description, owner, submitter, submitData, severity, tags, regression);
 		
-		return new StringRepresentation("add this bug successfully!");
+		return new StringRepresentation(returnStr);
 	}
 	
 	@Get

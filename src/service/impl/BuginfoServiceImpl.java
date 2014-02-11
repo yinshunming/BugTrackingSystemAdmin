@@ -56,29 +56,36 @@ public class BuginfoServiceImpl implements IBuginfoService{
 	}
 	
 	@Override
-	public void saveBuginfo(String username, String bugId, String component, String title,
+	public String saveBuginfo(String username, String bugId, String component, String title,
 			String project, String type, String status, String description, String owner,
 			String submitter, String sumitterData, String severity,
 			String tags, String regression) {
 		// TODO Auto-generated method stub
-		
-		
-	
-			Buginfo bg = new Buginfo(bugId, title, project, type, status,
-					description,  owner, submitter,
-					Timestamp.valueOf(sumitterData), severity,  tags,
-					 regression,  component);
+			List<Buginfo> biList = buginfoDao.findByBugId(bugId);
+			Buginfo bg = null;
 			
- 			buginfoDao.save(bg);
-			
+			if (biList != null && biList.size() != 0) {
+				bg = biList.get(0);
+			} else {
+				bg = new Buginfo(bugId, title, project, type, status,
+						description,  owner, submitter,
+						Timestamp.valueOf(sumitterData), severity,  tags,
+						 regression,  component);
+				buginfoDao.save(bg);
+			}
+
 			List<Userinfo> userinfoList = userinfoDao.findByUsername(username);
 			
 			if (userinfoList != null && userinfoList.size() > 0) {
 				Userinfo ui = userinfoList.get(0);
 				if (ui.getOneBugFullName().equals(owner)) {
 					Ownerbugs ob = new Ownerbugs(ui.getId(), bg.getId());
-					ownerBugsDao.save(ob);
-					
+					try {
+						ownerBugsDao.save(ob);
+					} catch (Exception ex) {
+						System.out.println("*****************************************************");
+						return ConstantUtil.addFailure;
+					}
 				} else {  //needs to add to one's managed list
 					Managedbugs mb = new Managedbugs(ui.getId(), bg.getId());
 					
@@ -86,6 +93,25 @@ public class BuginfoServiceImpl implements IBuginfoService{
 				
 				}
 			}
+			
+			return ConstantUtil.addOK;
+		
+	}
+	
+	public void addOwnerBuginfoList(String oneBugFullName, String username) {
+		List<Buginfo> returnList = DataMartAccess.getOwnerBuginfoList(oneBugFullName);
+		
+		for (Buginfo bi : returnList) {
+			buginfoDao.save(bi);
+			
+			List<Userinfo> userinfoList = userinfoDao.findByUsername(username);
+			
+			if (userinfoList != null && userinfoList.size() > 0) {
+				Userinfo ui = userinfoList.get(0);
+				Ownerbugs ob = new Ownerbugs(ui.getId(), bi.getId());
+				ownerBugsDao.save(ob);
+			}
+		}
 		
 	}
 	

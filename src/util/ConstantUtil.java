@@ -15,4 +15,7 @@ public class ConstantUtil {
 	public static String resotoreCmd = "restore";
 	
 	public static String separator = "_";
+	
+	public static String addOK = "adding buginfo OK!";
+	public static String addFailure = "adding buginfo failure!";
 }
