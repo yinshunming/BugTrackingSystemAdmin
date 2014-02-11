@@ -88,8 +88,12 @@ public class BuginfoServiceImpl implements IBuginfoService{
 					}
 				} else {  //needs to add to one's managed list
 					Managedbugs mb = new Managedbugs(ui.getId(), bg.getId());
-					
-					managedBugsDao.save(mb);
+					try {
+						managedBugsDao.save(mb);
+					} catch (Exception ex) {
+						System.out.println("*****************************************************");
+						return ConstantUtil.addFailure;
+					}
 				
 				}
 			}
@@ -209,6 +213,15 @@ public class BuginfoServiceImpl implements IBuginfoService{
 		Buginfo bi = buginfoDao.findById(id);
 		if (bi != null) {
 			bi.setStatus(status);
+			buginfoDao.update(bi);
+		}
+	}
+	@Override
+	public void updateComponent(Integer id, String bugId, String component) {
+		// TODO Auto-generated method stub
+		Buginfo bi = buginfoDao.findById(id);
+		if (bi != null) {
+			bi.setStatus(component);
 			buginfoDao.update(bi);
 		}
 	}

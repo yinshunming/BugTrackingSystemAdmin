@@ -25,4 +25,6 @@ public interface IBuginfoService {
 	
 	public void updateStatus(Integer id, String bugId, String status);
 	
+	public void updateComponent(Integer id, String bugId, String component);
+	
 }

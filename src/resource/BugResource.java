@@ -6,6 +6,7 @@ import org.restlet.ext.json.JsonRepresentation;
 import org.restlet.representation.Representation;
 import org.restlet.resource.Get;
 import org.restlet.resource.Post;
+import org.restlet.resource.Put;
 import org.restlet.resource.ServerResource;
 
 import bean.Buginfo;
@@ -34,5 +35,11 @@ public class BugResource extends ServerResource{
 		Buginfo bi = bugInfoService.getBuginfoFromLocalById(id);
 		
 		return new JsonRepresentation(new JSONObject(bi));
+	}
+	
+	@Put
+	public Representation put(Representation entity) {
+		
+		return null;
 	}
 }
