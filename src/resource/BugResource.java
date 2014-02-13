@@ -40,7 +40,7 @@ public class BugResource extends ServerResource{
 	
 	@Put
 	public Representation put(Representation entity) {
-		Form form = new Form(entity); 
+		Form form = getRequest().getResourceRef().getQueryAsForm();  
 		String id = form.getFirstValue("id");
 		String bugId = form.getFirstValue("bugId");
 		String component = form.getFirstValue("component");

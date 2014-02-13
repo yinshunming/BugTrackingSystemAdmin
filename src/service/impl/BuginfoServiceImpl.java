@@ -221,7 +221,7 @@ public class BuginfoServiceImpl implements IBuginfoService{
 		// TODO Auto-generated method stub
 		Buginfo bi = buginfoDao.findById(id);
 		if (bi != null) {
-			bi.setStatus(component);
+			bi.setComponent(component);
 			buginfoDao.update(bi);
 		}
 	}
