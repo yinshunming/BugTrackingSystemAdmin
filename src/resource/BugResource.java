@@ -4,6 +4,7 @@ import org.json.JSONObject;
 import org.restlet.data.Form;
 import org.restlet.ext.json.JsonRepresentation;
 import org.restlet.representation.Representation;
+import org.restlet.representation.StringRepresentation;
 import org.restlet.resource.Get;
 import org.restlet.resource.Post;
 import org.restlet.resource.Put;
@@ -39,7 +40,11 @@ public class BugResource extends ServerResource{
 	
 	@Put
 	public Representation put(Representation entity) {
-		
-		return null;
+		Form form = new Form(entity); 
+		String id = form.getFirstValue("id");
+		String bugId = form.getFirstValue("bugId");
+		String component = form.getFirstValue("component");
+		bugInfoService.updateComponent(Integer.valueOf(id), bugId, component);
+		return new StringRepresentation("changing compoent ok!");
 	}
 }
