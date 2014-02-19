@@ -15,8 +15,17 @@ public class Ownerbugs implements java.io.Serializable {
 	private Integer bugInfoId;
 	private Integer status;
 	private Integer changed;
+	private String newOwner;
 
 	// Constructors
+
+	public String getNewOwner() {
+		return newOwner;
+	}
+
+	public void setNewOwner(String newOwner) {
+		this.newOwner = newOwner;
+	}
 
 	public Integer getChanged() {
 		return changed;
@@ -34,12 +43,23 @@ public class Ownerbugs implements java.io.Serializable {
 		this(userInfoId, bugInfoId, ConstantUtil.managedBugsStatus, ConstantUtil.ownerNotChanged);
 	}
 	
-	/** full constructor */
+
 	public Ownerbugs(Integer userInfoId, Integer bugInfoId, Integer status, Integer changed) {
 		this.userInfoId = userInfoId;
 		this.bugInfoId = bugInfoId;
 		this.status = status;
 		this.changed = changed;
+		this.newOwner = "";
+	}
+	
+	
+	/** full constructor */
+	public Ownerbugs(Integer userInfoId, Integer bugInfoId, Integer status, Integer changed, String newOwner) {
+		this.userInfoId = userInfoId;
+		this.bugInfoId = bugInfoId;
+		this.status = status;
+		this.changed = changed;
+		this.newOwner = newOwner;
 	}
 	
 

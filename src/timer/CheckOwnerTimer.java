@@ -48,6 +48,7 @@ public class CheckOwnerTimer {
 			Ownerbugs ob = ownerbugsDao.findById(differentBuginfo.getManagedBugId());
 			if (ob != null) {
 				ob.setChanged(ConstantUtil.ownerChanged);
+				ob.setNewOwner(differentBuginfo.getNewOwner());
 				ownerbugsDao.update(ob);
 			}
 		}

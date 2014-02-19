@@ -43,7 +43,7 @@ public class DataMartAccess {
     		
     		for (WarppedBuginfo warppedBuginfo : oldList) {
     			Buginfo oldBuginfo = warppedBuginfo.getBuginfo();
-	    		ps = ct.prepareStatement("select * from OB_Bugs where BUGID=? and OwnerNm!=?");
+	    		ps = ct.prepareStatement("select top 1 * from OB_Bugs where BUGID=? and OwnerNm!=?");
 	    		ps.setString(1, oldBuginfo.getBugId());
 	    		ps.setString(2, oldBuginfo.getOwner());
     		
@@ -57,7 +57,6 @@ public class DataMartAccess {
 	    			bi.setType(rs.getString("DefectType"));
 	    			bi.setStatus(rs.getString("State"));
 	    			bi.setDescription(rs.getString("Description"));
-
 	    			bi.setOwner(rs.getString("OwnerNm"));
 	    			bi.setSubmitter(rs.getString("SubmitterNm"));
 	    			bi.setProject(rs.getString("Project"));
@@ -65,7 +64,7 @@ public class DataMartAccess {
 	    			bi.setSeverity(rs.getString("Severity"));
 	    			bi.setTags(rs.getString("Tags"));
 	    			bi.setRegression(rs.getString("Regression"));
-	    			WarppedBuginfo wb = new WarppedBuginfo(bi, warppedBuginfo.getStatus(), warppedBuginfo.getManagedBugId());
+	    			WarppedBuginfo wb = new WarppedBuginfo(bi, warppedBuginfo.getStatus(), warppedBuginfo.getManagedBugId(), bi.getOwner());
 	    			returnList.add(wb);
 	    		}
     		}
@@ -83,6 +82,7 @@ public class DataMartAccess {
 		return returnList;
 	}
 	
+	/*
 	public static List<Buginfo> getDifferentBugId (List<Buginfo> oldBuginfoList) {
 		PreparedStatement ps = null;
     	Connection ct = null;
@@ -132,6 +132,7 @@ public class DataMartAccess {
     	
 		return returnList;
 	}
+	*/
 	
 	public static List<Buginfo> getOwnerBuginfoList(String oneBugFullName) {
 		PreparedStatement ps = null;
@@ -190,7 +191,7 @@ public class DataMartAccess {
     	try {
     		Class.forName(DriverName);
     		ct = DriverManager.getConnection(DatabaseUrl);
-    		ps = ct.prepareStatement("select * from OB_Bugs where BUGID=?");
+    		ps = ct.prepareStatement("select top 1 * from OB_Bugs where BUGID=? ");
     		ps.setString(1, bugId);
     		
     		rs = ps.executeQuery();

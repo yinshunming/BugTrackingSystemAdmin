@@ -153,13 +153,13 @@ public class OwnerbugsServiceImpl implements IOwnerbugsService{
 					if (ownerbug.getStatus().equals(ConstantUtil.managedBugsStatus) && ownerbug.getChanged().equals(ConstantUtil.ownerChanged)) {
 						Buginfo bi = buginfoDao.findById(ownerbug.getBugInfoId());
 						if (bi != null) {
-							WarppedBuginfo wb = new WarppedBuginfo(bi, ownerbug.getStatus(), ownerbug.getId());
+							WarppedBuginfo wb = new WarppedBuginfo(bi, ownerbug.getStatus(), ownerbug.getId(), ownerbug.getNewOwner());
 							buginfoList.add(wb);
 						}
 				}
 
 			}
-		}
+		  }
 		}
 		
 		return buginfoList;

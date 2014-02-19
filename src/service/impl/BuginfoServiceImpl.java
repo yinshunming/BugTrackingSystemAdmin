@@ -135,11 +135,12 @@ public class BuginfoServiceImpl implements IBuginfoService{
 	@Override
 	public List<Buginfo> refreshBuginfo(List<Buginfo> ownerBuginfoList) {
 		// TODO Auto-generated method stub
+		/*
 		List<Buginfo> retList = DataMartAccess.getDifferentBugId(ownerBuginfoList);
 		
 		if (retList.size()>0)
 			return retList;
-		
+		*/
 		return null;
 	}
 	

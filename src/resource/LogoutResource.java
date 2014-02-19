@@ -1,5 +1,7 @@
 package resource;
 
+import org.restlet.data.Form;
+import org.restlet.data.Status;
 import org.restlet.representation.Representation;
 import org.restlet.representation.StringRepresentation;
 import org.restlet.resource.Get;
@@ -18,9 +20,13 @@ public class LogoutResource extends ServerResource{
 	@Post 
 	public Representation post(Representation entity) {
 		System.out.println("++++++++++++++++++++++++++++++++++++++++++++++++++++++++");
-		System.out.println("++++++++++++++++++++++++++++++++++++++++++++++++++++++++");
-		System.out.println("++++++++++++++++++++++++++++++++++++++++++++++++++++++++");
-		System.out.println("++++++++++++++++++++++++++++++++++++++++++++++++++++++++");
+		
+//		String username = this.getRequest().getChallengeResponse().getIdentifier();
+//		Form form = getRequest().getResourceRef().getQueryAsForm();  
+//		String username1 = form.getFirstValue("username");
+
+	//	this.getResponse().setStatus(Status.CLIENT_ERROR_UNAUTHORIZED);
+		
 		return new StringRepresentation("logouting ok!");
 	}
 }
