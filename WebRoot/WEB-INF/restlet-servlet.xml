@@ -13,8 +13,8 @@
 	
 	 
 	<task:scheduled-tasks>   
-        <!--  <task:scheduled ref="checkOwner" method="check" cron="0 0/30 * * * ?"/>   -->
-         <task:scheduled ref="checkOwner" method="check" cron="0 0/1 * * * ?"/>
+        <task:scheduled ref="checkOwner" method="check" cron="0 0/30 * * * ?"/> 
+
 	</task:scheduled-tasks>  
 
 	<bean id="checkOwner" class="timer.CheckOwnerTimer">
