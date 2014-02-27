@@ -39,8 +39,12 @@ public class OwnerbugsServiceImpl implements IOwnerbugsService{
 	public void deleteOwnerbugs(int id) {
 		// TODO Auto-generated method stub
 		Ownerbugs ob =  ownerbugsDAO.findById(id);
-		if (ob != null)
+		Buginfo bi = buginfoDAO.findById(ob.getBugInfoId());
+		if (ob != null && bi != null) {
 			ownerbugsDAO.delete(ob);
+			buginfoDAO.delete(bi);
+		}
+		
 	}
 
 	public IOwnerbugsDAO getOwnerbugsDAO() {

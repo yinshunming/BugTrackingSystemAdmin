@@ -75,8 +75,10 @@ public class ManagedbugsServiceImpl implements IManagedbugsService{
 	public void deleteManagedbug(int id) {
 		// TODO Auto-generated method stub
 		Managedbugs mb = managedbugsDAO.findById(id);
-		if (mb != null) {
+		Buginfo bi = buginfoDAO.findById(mb.getBugInfoId());
+		if (mb != null && bi != null) {
 			managedbugsDAO.delete(mb);
+			buginfoDAO.delete(bi);
 		}
 	}
 
