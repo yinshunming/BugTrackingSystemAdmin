@@ -1,7 +1,5 @@
 package util;
 
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -10,13 +8,6 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 public class Helper {
-	
-	public static void main (String args[]) {
-		List<String> list = new ArrayList<String>();
-		list.add("abc");
-		System.out.println(Helper.convertFromList(list));
-	}
-	
 	public static <T> JSONArray convertFromList(List<T> list) {
 		JSONArray ja = new JSONArray();
 		

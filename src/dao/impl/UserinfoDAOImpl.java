@@ -160,4 +160,15 @@ public class UserinfoDAOImpl extends HibernateDaoSupport implements IUserinfoDAO
 	public static UserinfoDAOImpl getFromApplicationContext(ApplicationContext ctx) {
 		return (UserinfoDAOImpl) ctx.getBean("UserinfoDAO");
 	}
+	
+	public void update(Userinfo instance) {
+		log.debug("updating Userinfo instance");
+		try {
+			getHibernateTemplate().update(instance);
+			log.debug("update successful");
+		} catch (RuntimeException re) {
+			log.error("update failed", re);
+			throw re;
+		}
+	}
 }

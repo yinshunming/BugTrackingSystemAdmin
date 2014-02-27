@@ -1,17 +1,13 @@
 package service;
 
 import java.util.List;
-import java.util.Map;
 
-import bean.Buginfo;
-import bean.WarppedBuginfo;
+import bean.WarppedManagedbugs;
+
 
 public interface IManagedbugsService {
-	public List<Buginfo> getManagedBugsByUserName(String username);
-	
-	public List<WarppedBuginfo>	getHistroyManagedBugsByUserName(String username);
-	
-	public void deleteBugsByUserName(String username, Integer managedBugId, Integer id);
-	
-	public void operateBugsByUserName(String username, Integer managedBugId, Integer id, String operate);
+	public List<WarppedManagedbugs> getManagedbugsList();
+	public void addManagedbug(int userInfoId, int buginfoId);
+	public void updateManagedbug(int id, int userInfoId, int buginfoId);
+	public void deleteManagedbug(int id);
 }

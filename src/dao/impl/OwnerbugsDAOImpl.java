@@ -9,7 +9,6 @@ import org.springframework.orm.hibernate3.support.HibernateDaoSupport;
 
 import dao.IOwnerbugsDAO;
 
-import bean.Managedbugs;
 import bean.Ownerbugs;
 
 /**
@@ -30,6 +29,8 @@ public class OwnerbugsDAOImpl extends HibernateDaoSupport implements IOwnerbugsD
 	public static final String USER_INFO_ID = "userInfoId";
 	public static final String BUG_INFO_ID = "bugInfoId";
 	public static final String STATUS = "status";
+	public static final String CHANGED = "changed";
+	public static final String NEW_OWNER = "newOwner";
 
 	protected void initDao() {
 		// do nothing
@@ -107,6 +108,14 @@ public class OwnerbugsDAOImpl extends HibernateDaoSupport implements IOwnerbugsD
 		return findByProperty(STATUS, status);
 	}
 
+	public List findByChanged(Object changed) {
+		return findByProperty(CHANGED, changed);
+	}
+
+	public List findByNewOwner(Object newOwner) {
+		return findByProperty(NEW_OWNER, newOwner);
+	}
+
 	public List findAll() {
 		log.debug("finding all Ownerbugs instances");
 		try {
@@ -155,16 +164,5 @@ public class OwnerbugsDAOImpl extends HibernateDaoSupport implements IOwnerbugsD
 
 	public static OwnerbugsDAOImpl getFromApplicationContext(ApplicationContext ctx) {
 		return (OwnerbugsDAOImpl) ctx.getBean("OwnerbugsDAO");
-	}
-	
-	public void update(Ownerbugs instance) {
-		log.debug("updating Ownerbugs instance");
-		try {
-			getHibernateTemplate().update(instance);
-			log.debug("update successful");
-		} catch (RuntimeException re) {
-			log.error("update failed", re);
-			throw re;
-		}
 	}
 }

@@ -1,10 +1,7 @@
 /bean
-/crawl
 /dao
 /database
 /filter
 /resource
 /service
-/test
-/timer
 /util

@@ -11,17 +11,6 @@
            http://www.springframework.org/schema/aop   
            http://www.springframework.org/schema/aop/spring-aop-2.5.xsd">
 	
-	 
-	<task:scheduled-tasks>   
-        <task:scheduled ref="checkOwner" method="check" cron="0 0/30 * * * ?"/> 
-
-	</task:scheduled-tasks>  
-
-	<bean id="checkOwner" class="timer.CheckOwnerTimer">
-			<property name="ownerbugsDao" ref="ownerbugsDAO"></property> 
-			<property name="buginfoDao" ref="buginfoDAO"></property> 
-	</bean>
-	
 	<bean id="dataSource"
 			class="org.apache.commons.dbcp.BasicDataSource">
 			 <property name="driverClassName">
@@ -50,9 +39,12 @@
 					<value>bean/Buginfo.hbm.xml</value>
 					<value>bean/Userinfo.hbm.xml</value>
 					<value>bean/Managedbugs.hbm.xml</value>
-					<value>bean/Ownerbugs.hbm.xml</value></list>
+					<value>bean/Ownerbugs.hbm.xml</value>
+					<value>bean/Admininfo.hbm.xml</value>
+				</list>
 			</property>
 	</bean>
+	
 	<bean id="txManager" class="org.springframework.orm.hibernate3.HibernateTransactionManager">
     	<property name="sessionFactory" ref="sessionFactory" />
 	</bean>
@@ -60,43 +52,41 @@
 	<bean id="transactionTemplate" class="org.springframework.transaction.support.TransactionTemplate">
 	    <property name="transactionManager" ref="txManager"/>
 	</bean>
-	
-	
-	<bean id="buginfoDAO" class="dao.impl.BuginfoDAOImpl">
+
+
+	<bean id="BuginfoDAO" class="dao.impl.BuginfoDAOImpl">
 		<property name="sessionFactory" ref="sessionFactory"></property> 
 	</bean>
-	
-	<bean id="userinfoDAO" class="dao.impl.UserinfoDAOImpl">
+	<bean id="UserinfoDAO" class="dao.impl.UserinfoDAOImpl">
 		<property name="sessionFactory" ref="sessionFactory"></property> 
 	</bean>
-	
-	<bean id="managedbugsDAO" class="dao.impl.ManagedbugsDAOImpl">
+	<bean id="ManagedbugsDAO" class="dao.impl.ManagedbugsDAOImpl">
 		<property name="sessionFactory" ref="sessionFactory"></property> 
 	</bean>
-	
-	<bean id="ownerbugsDAO" class="dao.impl.OwnerbugsDAOImpl">
+	<bean id="OwnerbugsDAO" class="dao.impl.OwnerbugsDAOImpl">
 		<property name="sessionFactory" ref="sessionFactory"></property> 
 	</bean>
-	
+	<bean id="AdmininfoDAO" class="dao.impl.AdmininfoDAOImpl">
+		<property name="sessionFactory" ref="sessionFactory"></property> 
+	</bean>
+
 	<bean id="component" class="org.restlet.ext.spring.SpringComponent">
-    	 <!--  <property name="defaultTarget" ref="bugTrackingApp" /> -->
     	 <property name="defaultHost" ref="virtualHost"></property>
 	</bean>
 	
-	
 	<bean id="virtualHost" class="org.restlet.ext.spring.SpringHost">
-    <constructor-arg ref="component" />
-    <property name="attachments">
-      <map>
-        <entry key="/api">
-          <ref bean="bugTrackingApp" />
-        </entry>
-        
-        <entry key="/nonVerify">
-          <ref bean="nonVerifyApp" />
-        </entry>
-      </map>
-    </property>
+	    <constructor-arg ref="component" />
+	    <property name="attachments">
+	      <map>
+	        <entry key="/api">
+	          <ref bean="bugTrackingApp" />
+	        </entry>
+	        
+	        <entry key="/nonVerify">
+	          <ref bean="nonVerifyApp" />
+	        </entry>
+	      </map>
+	    </property>
   	</bean>
 	
 	
@@ -114,155 +104,88 @@
 	</bean>
 
 	<bean id="customerVerifier" class="filter.CustomerVerifier">
-		<property name="userinfoService" ref="userinfoService"></property>
+		<property name="admininfoService" ref="AdmininfoService"></property>
 	</bean>
 	
 	
-	<bean id="bugResource" class="resource.BugResource" scope="prototype">
-		<property name="bugInfoService" ref="buginfoService"/>
+	<bean id="AdmininfoService" class="service.impl.AdmininfoServiceImpl"> 
+		<property name="admininfoDAO" ref="AdmininfoDAO" />
+	</bean>
+	
+	<bean id="UserinfoService" class="service.impl.UserinfoServiceImpl">
+		<property name="userinfoDAO" ref="UserinfoDAO" />
+	</bean>
+	
+	<bean id="OwnerbugsService" class="service.impl.OwnerbugsServiceImpl">
+		<property name="ownerbugsDAO" ref="OwnerbugsDAO" />
+		<property name="userinfoDAO" ref="UserinfoDAO" />
+		<property name="buginfoDAO" ref="BuginfoDAO" />
+	</bean>
+	
+	<bean id="ManagedbugsService" class="service.impl.ManagedbugsServiceImpl">
+		<property name="managedbugsDAO" ref="ManagedbugsDAO" />
+		<property name="userinfoDAO" ref="UserinfoDAO" />
+		<property name="buginfoDAO" ref="BuginfoDAO" />
+	</bean>
+	
+	<bean id="OwnerbugsResource" class="resource.OwnerbugsResource"> 
+		<property name="ownerbugsService" ref="OwnerbugsService" />
 		
 	</bean>
 	
-	<bean id="bugsResource" class="resource.BugsResource" scope="prototype">
-		<property name="buginfoService" ref="buginfoService"/>
-		<property name="ownerbugsService" ref="ownerbugsService"/>
+
+	
+	<bean id="ManagedbugsResource" class="resource.ManagedbugsResource">
+		<property name="managedbugsService" ref="ManagedbugsService" />
 	</bean>
 	
-	<bean id="mainFrameResource" class="resource.MainFrameResource" scope="prototype">
-		<property name="managedbugsService" ref="managedbugsService"/>
-		<property name="ownerbugsService" ref="ownerbugsService"/>
+	<bean id="UserinfoResource" class="resource.UserinfoResource"> 
+		<property name="userinfoService" ref="UserinfoService" />
 	</bean>
 	
-	<bean id="refreshResource" class="resource.RereshResource" scope="prototype">
-		<property name="buginfoService" ref="buginfoService"/>
+	<bean id="UserinfosResource" class="resource.UserinfosResource">
+		<property name="userinfoService" ref="UserinfoService"/>
 	</bean>
-	
-	<bean id="managedBugsResource" class="resource.ManagedBugsResource" scope="prototype">
-		<property name="managedbugsService" ref="managedbugsService"/>
-	</bean>
-	
-	<bean id="userResource" class="resource.UserResource" scope="prototype">
-		<property name="userinfoService" ref="userinfoService" />
-		<property name="buginfoService" ref="buginfoService"/>
-	</bean>
-	
-	<bean id="bugStatusResource" class="resource.BugStatusResource" scope="prototype">
-		<property name="buginfoService" ref="buginfoService"/>
-	</bean>
-	
-	<bean id="ownerBugsResource" class="resource.OwnerBugsResource" scope="prototype">
-		<property name="ownerbugsService" ref="ownerbugsService"/>
-	</bean>
-	
-	<bean id="logoutResource" class="resource.LogoutResource" scope="prototype">
-	</bean>
-	
-	<bean id="ownerChangedBugsResource" class="resource.OwnerChangedBugsResource">
-		<property name="ownerbugsService" ref="ownerbugsService"/>
-	</bean>
-	
 	
 	<bean id="defaultRouter" class="org.restlet.ext.spring.SpringRouter">
 		<property name="attachments">
-			<map>
-				<entry key="/user">
-					<bean class="org.restlet.ext.spring.SpringFinder">
-						<lookup-method name="create" bean="userResource" />  
-					</bean>
-				</entry>
-				
+			<map>			
 			</map>
 		</property>
 	</bean>
 	
-
 	<bean id="restRouter" class="org.restlet.ext.spring.SpringRouter">
-
 		<property name="attachments">
 			<map>
+				<entry key="/userinfo">
+				   <bean class="org.restlet.ext.spring.SpringFinder">  
+                       <lookup-method name="create" bean="UserinfoResource" />  
+                   </bean> 
+
+				</entry>
 				
-				<entry key="/bug">
-				   <bean class="org.restlet.ext.spring.SpringFinder">  
-                       <lookup-method name="create" bean="bugResource" />  
-                   </bean> 
-                </entry>
-			
-				<entry key="/bugs">
-				   <bean class="org.restlet.ext.spring.SpringFinder">  
-                       <lookup-method name="create" bean="bugsResource" />  
-                   </bean> 
+				                   
+                <entry key="/userinfos">
+		   			<bean class="org.restlet.ext.spring.SpringFinder">  
+                     <lookup-method name="create" bean="UserinfosResource" />  
+                 	</bean> 
                 </entry>
                 
-                <entry key="/mainFrame">
-				   <bean class="org.restlet.ext.spring.SpringFinder">  
-                       <lookup-method name="create" bean="mainFrameResource" />  
-                   </bean> 
+                
+                  <entry key="/managedBugs">
+		   			<bean class="org.restlet.ext.spring.SpringFinder">  
+                     <lookup-method name="create" bean="ManagedbugsResource" />  
+                 	</bean> 
                 </entry>
                 
-                <entry key="/refresh">
-				   <bean class="org.restlet.ext.spring.SpringFinder">  
-                       <lookup-method name="create" bean="refreshResource" />  
-                   </bean> 
+                 <entry key="/ownerBugs">
+		   			<bean class="org.restlet.ext.spring.SpringFinder">  
+                     <lookup-method name="create" bean="OwnerbugsResource" />  
+                 </bean> 
                 </entry>
-                
-                <entry key="/managed">
-				   <bean class="org.restlet.ext.spring.SpringFinder">  
-                       <lookup-method name="create" bean="managedBugsResource" />  
-                   </bean> 
-                </entry>
-                
-                  <entry key="/bugStatus">
-				   <bean class="org.restlet.ext.spring.SpringFinder">  
-                       <lookup-method name="create" bean="bugStatusResource" />  
-                   </bean> 
-                  </entry>
-                  
-                   <entry key="/owner">
-                   	<bean class="org.restlet.ext.spring.SpringFinder">
-                   		<lookup-method name="create" bean="ownerBugsResource" />  
-                   	</bean> 
-                   </entry>
-                   
-                   	<entry key="/logout">
-	                   	<bean class="org.restlet.ext.spring.SpringFinder">
-	                   		<lookup-method name="create" bean="logoutResource" />  
-	                   	</bean>
-                   	</entry>
-                	
-                	<entry key="/ownerChangedBugs">
-	                	<bean class="org.restlet.ext.spring.SpringFinder">
-		                   		<lookup-method name="create" bean="ownerChangedBugsResource" />  
-		                </bean>
-                	</entry>
 			</map>
 		</property>
 	</bean>
 	
-	<bean id="buginfoService" class="service.impl.BuginfoServiceImpl">
-		<property name="buginfoDao" ref="buginfoDAO">
-		</property>
-		<property name="userinfoDao" ref="userinfoDAO">
-		</property>
-		<property name="managedBugsDao" ref="managedbugsDAO"/>
-		<property name="ownerBugsDao" ref="ownerbugsDAO"/>
-	</bean>
 	
-	<bean id="ownerbugsService" class="service.impl.OwnerbugsServiceImpl">
-		<property name="buginfoDao" ref="buginfoDAO">
-		</property>
-		<property name="userinfoDao" ref="userinfoDAO">
-		</property>
-		<property name="ownerBugsDao" ref="ownerbugsDAO"/>
-		<property name="managedBugsDao" ref="managedbugsDAO"/>
-	</bean>
-	
-	<bean id="managedbugsService" class="service.impl.ManagedbugsServiceImpl">
-		<property name="managedbugsDao" ref="managedbugsDAO"/>
-		<property name="userinfoDao" ref="userinfoDAO"></property>
-		<property name="buginfoDao" ref="buginfoDAO"></property>
-	</bean>
-	
-	<bean id="userinfoService" class="service.impl.UserinfoServiceImpl">
-		<property name="userinfoDao" ref="userinfoDAO" />
-	</bean>
 	</beans>

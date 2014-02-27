@@ -1,7 +1,5 @@
 package bean;
 
-import util.ConstantUtil;
-
 /**
  * Ownerbugs entity. @author MyEclipse Persistence Tools
  */
@@ -19,49 +17,19 @@ public class Ownerbugs implements java.io.Serializable {
 
 	// Constructors
 
-	public String getNewOwner() {
-		return newOwner;
-	}
-
-	public void setNewOwner(String newOwner) {
-		this.newOwner = newOwner;
-	}
-
-	public Integer getChanged() {
-		return changed;
-	}
-
-	public void setChanged(Integer changed) {
-		this.changed = changed;
-	}
-
 	/** default constructor */
 	public Ownerbugs() {
 	}
 
-	public Ownerbugs(Integer userInfoId, Integer bugInfoId) {
-		this(userInfoId, bugInfoId, ConstantUtil.managedBugsStatus, ConstantUtil.ownerNotChanged);
-	}
-	
-
-	public Ownerbugs(Integer userInfoId, Integer bugInfoId, Integer status, Integer changed) {
-		this.userInfoId = userInfoId;
-		this.bugInfoId = bugInfoId;
-		this.status = status;
-		this.changed = changed;
-		this.newOwner = "";
-	}
-	
-	
 	/** full constructor */
-	public Ownerbugs(Integer userInfoId, Integer bugInfoId, Integer status, Integer changed, String newOwner) {
+	public Ownerbugs(Integer userInfoId, Integer bugInfoId, Integer status,
+			Integer changed, String newOwner) {
 		this.userInfoId = userInfoId;
 		this.bugInfoId = bugInfoId;
 		this.status = status;
 		this.changed = changed;
 		this.newOwner = newOwner;
 	}
-	
 
 	// Property accessors
 
@@ -95,6 +63,22 @@ public class Ownerbugs implements java.io.Serializable {
 
 	public void setStatus(Integer status) {
 		this.status = status;
+	}
+
+	public Integer getChanged() {
+		return this.changed;
+	}
+
+	public void setChanged(Integer changed) {
+		this.changed = changed;
+	}
+
+	public String getNewOwner() {
+		return this.newOwner;
+	}
+
+	public void setNewOwner(String newOwner) {
+		this.newOwner = newOwner;
 	}
 
 }

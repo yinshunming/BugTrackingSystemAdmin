@@ -6,15 +6,13 @@ import bean.Managedbugs;
 
 
 public interface IManagedbugsDAO {
-	public List findByUserInfoId(Object userInfoId);
+	public List findAll();
 	
-	public void save(Managedbugs transientInstance);
+	public Managedbugs findById(Integer id);
+
+	public void save(Managedbugs mb);
 	
-	public List findByBugInfoId(Object bugInfoId);
+	public void update(Managedbugs mb);
 	
-	public Managedbugs findById(java.lang.Integer id);
-	
-	public void delete(Managedbugs persistentInstance);
-	
-	public void update(Managedbugs instance);
+	public void delete(Managedbugs mb);
 }

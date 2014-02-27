@@ -28,6 +28,7 @@ public class BuginfoDAOImpl extends HibernateDaoSupport implements IBuginfoDAO{
 	// property constants
 	public static final String BUG_ID = "bugId";
 	public static final String TITLE = "title";
+	public static final String PROJECT = "project";
 	public static final String TYPE = "type";
 	public static final String STATUS = "status";
 	public static final String DESCRIPTION = "description";
@@ -108,6 +109,10 @@ public class BuginfoDAOImpl extends HibernateDaoSupport implements IBuginfoDAO{
 
 	public List findByTitle(Object title) {
 		return findByProperty(TITLE, title);
+	}
+
+	public List findByProject(Object project) {
+		return findByProperty(PROJECT, project);
 	}
 
 	public List findByType(Object type) {
@@ -194,16 +199,5 @@ public class BuginfoDAOImpl extends HibernateDaoSupport implements IBuginfoDAO{
 
 	public static BuginfoDAOImpl getFromApplicationContext(ApplicationContext ctx) {
 		return (BuginfoDAOImpl) ctx.getBean("BuginfoDAO");
-	}
-	
-	public void update(Buginfo instance) {
-		log.debug("updating Buginfo instance");
-		try {
-			getHibernateTemplate().update(instance);
-			log.debug("update successful");
-		} catch (RuntimeException re) {
-			log.error("update failed", re);
-			throw re;
-		}
 	}
 }

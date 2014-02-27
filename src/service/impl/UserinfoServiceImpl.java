@@ -2,38 +2,58 @@ package service.impl;
 
 import java.util.List;
 
-import bean.Userinfo;
 import dao.IUserinfoDAO;
-import service.IUserinfoSerivce;
 
-public class UserinfoServiceImpl implements IUserinfoSerivce {
-	private IUserinfoDAO userinfoDao;
+import bean.Userinfo;
+import service.IUserinfoService;
 
-	public IUserinfoDAO getUserinfoDao() {
-		return userinfoDao;
+public class UserinfoServiceImpl implements IUserinfoService{
+	
+	private IUserinfoDAO userinfoDAO;
+	
+	@Override
+	public List<Userinfo> getUserinfoList() {
+		// TODO Auto-generated method stub
+		List<Userinfo> userinfoList = userinfoDAO.findAll();
+		return userinfoList;
 	}
 
-	public void setUserinfoDao(IUserinfoDAO userinfoDao) {
-		this.userinfoDao = userinfoDao;
+	public IUserinfoDAO getUserinfoDAO() {
+		return userinfoDAO;
 	}
+
+	public void setUserinfoDAO(IUserinfoDAO userinfoDAO) {
+		this.userinfoDAO = userinfoDAO;
+	}
+
 
 	@Override
-	public Userinfo getUserinfoByUsername(String username) {
+	public void addUserinfo(String username, String password,
+			String oneBugFullName, String email) {
 		// TODO Auto-generated method stub
-		List<Userinfo> userInfoList = userinfoDao.findByUsername(username);
-		if (userInfoList != null && userInfoList.size() > 0)
-			return userInfoList.get(0);
 		
-		return null;
+		Userinfo ui = new Userinfo(username, password, oneBugFullName, email);
+		userinfoDAO.save(ui);
 	}
 
 	@Override
-	public void save(String username, String password, String oneBugFullName,
-			String email) {
+	public void updateUserinfo(Integer id, String username, String password,
+			String oneBugFullName, String email) {
 		// TODO Auto-generated method stub
-		Userinfo userInfo = new Userinfo(username, password, oneBugFullName, email);
-		userinfoDao.save(userInfo);
+		Userinfo ui = new Userinfo(username, password, oneBugFullName, email);
+		ui.setId(id);
+		userinfoDAO.update(ui);
+	}
+
+	@Override
+	public void deleteUserinfo(Integer id) {
+		// TODO Auto-generated method stub
+		Userinfo ui = userinfoDAO.findById(id);
+		if (ui != null) {
+			userinfoDAO.delete(ui);
+		}
 	}
 	
 	
+
 }

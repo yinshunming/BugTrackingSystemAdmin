@@ -20,18 +20,18 @@ public class Managedbugs implements java.io.Serializable {
 	/** default constructor */
 	public Managedbugs() {
 	}
-
-
+	
 	public Managedbugs(Integer userInfoId, Integer bugInfoId) {
 		this(userInfoId, bugInfoId, ConstantUtil.managedBugsStatus);
 	}
-	
+
 	/** full constructor */
 	public Managedbugs(Integer userInfoId, Integer bugInfoId, Integer status) {
 		this.userInfoId = userInfoId;
 		this.bugInfoId = bugInfoId;
 		this.status = status;
 	}
+	
 
 	// Property accessors
 
@@ -60,7 +60,7 @@ public class Managedbugs implements java.io.Serializable {
 	}
 
 	public Integer getStatus() {
-		return status;
+		return this.status;
 	}
 
 	public void setStatus(Integer status) {

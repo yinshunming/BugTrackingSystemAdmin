@@ -8,7 +8,7 @@
     <class name="bean.Buginfo" table="buginfo" catalog="bugtrackingsystem">
         <id name="id" type="java.lang.Integer">
             <column name="id" />
-            <generator class="identity" />
+            <generator class="increment" />
         </id>
         <property name="bugId" type="java.lang.String">
             <column name="bugId" />
@@ -16,11 +16,9 @@
         <property name="title" type="java.lang.String">
             <column name="title" length="500" />
         </property>
-        
         <property name="project" type="java.lang.String">
-        	<column name="project"/>
+            <column name="project" length="500" />
         </property>
-        
         <property name="type" type="java.lang.String">
             <column name="type" />
         </property>
@@ -28,7 +26,7 @@
             <column name="status" />
         </property>
         <property name="description" type="java.lang.String">
-            <column name="description"/>
+            <column name="description" length="65535" />
         </property>
         <property name="owner" type="java.lang.String">
             <column name="owner" />
@@ -51,6 +49,5 @@
         <property name="component" type="java.lang.String">
             <column name="component" />
         </property>
-       
     </class>
 </hibernate-mapping>

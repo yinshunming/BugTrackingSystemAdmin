@@ -1,13 +1,12 @@
 package bean;
 
 import java.sql.Timestamp;
-import java.util.Comparator;
 
 /**
  * Buginfo entity. @author MyEclipse Persistence Tools
  */
 
-public class Buginfo implements java.io.Serializable{
+public class Buginfo implements java.io.Serializable {
 
 	// Fields
 
@@ -26,19 +25,15 @@ public class Buginfo implements java.io.Serializable{
 	private String regression;
 	private String component;
 
-
 	// Constructors
-
 
 	/** default constructor */
 	public Buginfo() {
 	}
 
-
-
 	/** full constructor */
-	public Buginfo(String bugId, String title, String project, String type, String status,
-			String description, String owner, String submitter,
+	public Buginfo(String bugId, String title, String project, String type,
+			String status, String description, String owner, String submitter,
 			Timestamp submitData, String severity, String tags,
 			String regression, String component) {
 		this.bugId = bugId;
@@ -54,10 +49,10 @@ public class Buginfo implements java.io.Serializable{
 		this.tags = tags;
 		this.regression = regression;
 		this.component = component;
-
 	}
 
 	// Property accessors
+
 	public Integer getId() {
 		return this.id;
 	}
@@ -80,6 +75,14 @@ public class Buginfo implements java.io.Serializable{
 
 	public void setTitle(String title) {
 		this.title = title;
+	}
+
+	public String getProject() {
+		return this.project;
+	}
+
+	public void setProject(String project) {
+		this.project = project;
 	}
 
 	public String getType() {
@@ -161,16 +164,5 @@ public class Buginfo implements java.io.Serializable{
 	public void setComponent(String component) {
 		this.component = component;
 	}
-
-	public String getProject() {
-		return project;
-	}
-
-	public void setProject(String project) {
-		this.project = project;
-	}
-
-
-
 
 }

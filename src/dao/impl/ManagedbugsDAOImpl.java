@@ -9,7 +9,6 @@ import org.springframework.orm.hibernate3.support.HibernateDaoSupport;
 
 import dao.IManagedbugsDAO;
 
-import bean.Buginfo;
 import bean.Managedbugs;
 
 /**
@@ -29,6 +28,7 @@ public class ManagedbugsDAOImpl extends HibernateDaoSupport implements IManagedb
 	// property constants
 	public static final String USER_INFO_ID = "userInfoId";
 	public static final String BUG_INFO_ID = "bugInfoId";
+	public static final String STATUS = "status";
 
 	protected void initDao() {
 		// do nothing
@@ -102,6 +102,10 @@ public class ManagedbugsDAOImpl extends HibernateDaoSupport implements IManagedb
 		return findByProperty(BUG_INFO_ID, bugInfoId);
 	}
 
+	public List findByStatus(Object status) {
+		return findByProperty(STATUS, status);
+	}
+
 	public List findAll() {
 		log.debug("finding all Managedbugs instances");
 		try {
@@ -152,11 +156,13 @@ public class ManagedbugsDAOImpl extends HibernateDaoSupport implements IManagedb
 			ApplicationContext ctx) {
 		return (ManagedbugsDAOImpl) ctx.getBean("ManagedbugsDAO");
 	}
-	
-	public void update(Managedbugs instance) {
-		log.debug("updating Buginfo instance");
+
+	@Override
+	public void update(Managedbugs mb) {
+		// TODO Auto-generated method stub
+		log.debug("updating Managedbugs instance");
 		try {
-			getHibernateTemplate().update(instance);
+			getHibernateTemplate().update(mb);
 			log.debug("update successful");
 		} catch (RuntimeException re) {
 			log.error("update failed", re);
