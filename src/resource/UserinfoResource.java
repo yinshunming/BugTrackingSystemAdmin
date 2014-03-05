@@ -1,6 +1,10 @@
 package resource;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import org.restlet.data.Form;
+import org.restlet.ext.json.JsonRepresentation;
 import org.restlet.representation.Representation;
 import org.restlet.representation.StringRepresentation;
 
@@ -34,9 +38,12 @@ public class UserinfoResource extends BaseResource{
 		String oneBugFullName = form.getFirstValue("oneBugFullName");
 		String email = form.getFirstValue("email");
 		
-		userinfoService.addUserinfo(username, password, oneBugFullName, email);
+		Integer id = userinfoService.addUserinfo(username, password, oneBugFullName, email);
 		
-		return new StringRepresentation(ConstantUtil.savingUserinfoOK);
+		Map<String, String> map = new HashMap<String,String>();
+		map.put(id.toString(), ConstantUtil.savingUserinfoOK);
+		
+		return new JsonRepresentation(map);
 	}
 	
 	@Put

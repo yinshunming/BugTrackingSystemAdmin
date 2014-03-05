@@ -6,6 +6,7 @@ import java.util.List;
 import dao.IBuginfoDAO;
 import dao.IManagedbugsDAO;
 import dao.IUserinfoDAO;
+import database.DataMartAccess;
 
 import bean.Buginfo;
 import bean.Managedbugs;
@@ -57,12 +58,16 @@ public class ManagedbugsServiceImpl implements IManagedbugsService{
 		return wmList;
 	}
 	@Override
-	public void addManagedbug(int userinfoId, int buginfoId) {
+	public void addManagedbug(int userinfoId, String bugId) {
 		// TODO Auto-generated method stub
-		Managedbugs mb = new Managedbugs(userinfoId, buginfoId);
-		
-		if (mb != null)
+	
+	
+		Buginfo bi = DataMartAccess.getBugInfoByBugId(bugId);
+		if (bi != null) {
+			buginfoDAO.save(bi);
+			Managedbugs mb = new Managedbugs(userinfoId, bi.getId());
 			managedbugsDAO.save(mb);
+		}
 		
 	}
 	@Override

@@ -5,7 +5,7 @@ import  bean.Userinfo;
 
 public interface IUserinfoService {
 	public List<Userinfo> getUserinfoList();
-	public void addUserinfo(String username, String password, String oneBugFullName, String email);
+	public Integer addUserinfo(String username, String password, String oneBugFullName, String email);
 	public void updateUserinfo(Integer id, String username, String password, String oneBugFullName, String email);
 	public void deleteUserinfo(Integer id);
 }

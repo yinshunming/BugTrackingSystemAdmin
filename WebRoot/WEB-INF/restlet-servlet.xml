@@ -112,6 +112,11 @@
 		<property name="admininfoDAO" ref="AdmininfoDAO" />
 	</bean>
 	
+	<bean id="BuginfoService" class="service.impl.BuginfoServiceImpl">
+	</bean>
+	
+	
+	
 	<bean id="UserinfoService" class="service.impl.UserinfoServiceImpl">
 		<property name="userinfoDAO" ref="UserinfoDAO" />
 		<property name="managedbugsDAO" ref="ManagedbugsDAO" />
@@ -129,6 +134,10 @@
 		<property name="managedbugsDAO" ref="ManagedbugsDAO" />
 		<property name="userinfoDAO" ref="UserinfoDAO" />
 		<property name="buginfoDAO" ref="BuginfoDAO" />
+	</bean>
+	
+	<bean id="BuginfoResource" class="resource.BuginfoResource">
+		<property name="buginfoService" ref="BuginfoService" />
 	</bean>
 	
 	<bean id="OwnerbugsResource" class="resource.OwnerbugsResource"> 
@@ -190,6 +199,13 @@
 		   			<bean class="org.restlet.ext.spring.SpringFinder">  
                      <lookup-method name="create" bean="OwnerbugsResource" />  
                  </bean> 
+                 </entry>
+                 
+                 <entry key="/buginfo">
+		   			<bean class="org.restlet.ext.spring.SpringFinder">  
+                     <lookup-method name="create" bean="BuginfoResource" />  
+                 </bean> 
+                 
                 </entry>
 			</map>
 		</property>

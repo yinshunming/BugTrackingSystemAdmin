@@ -63,7 +63,7 @@ public class ManagedbugsResource extends BaseResource{
 		String userinfoId = form.getFirstValue("userinfoId");
 		String buginfoId = form.getFirstValue("buginfoId");
 		
-		managedbugsService.addManagedbug(Integer.valueOf(userinfoId), Integer.valueOf(buginfoId));
+		managedbugsService.addManagedbug(Integer.valueOf(userinfoId), buginfoId);
 		
 		return new StringRepresentation(ConstantUtil.addManagedbugsOK);
 	}

@@ -54,12 +54,13 @@ public class UserinfoServiceImpl implements IUserinfoService{
 
 
 	@Override
-	public void addUserinfo(String username, String password,
+	public Integer addUserinfo(String username, String password,
 			String oneBugFullName, String email) {
 		// TODO Auto-generated method stub
 		
 		Userinfo ui = new Userinfo(username, password, oneBugFullName, email);
 		userinfoDAO.save(ui);
+		return ui.getId();
 	}
 
 	@Override
