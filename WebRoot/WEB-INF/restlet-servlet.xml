@@ -70,40 +70,40 @@
 		<property name="sessionFactory" ref="sessionFactory"></property> 
 	</bean>
 
-	<bean id="component" class="org.restlet.ext.spring.SpringComponent">
-    	 <property name="defaultHost" ref="virtualHost"></property>
+	<bean id="component1" class="org.restlet.ext.spring.SpringComponent">
+    	 <property name="defaultHost" ref="virtualHost1"></property>
 	</bean>
 	
-	<bean id="virtualHost" class="org.restlet.ext.spring.SpringHost">
-	    <constructor-arg ref="component" />
+	<bean id="virtualHost1" class="org.restlet.ext.spring.SpringHost">
+	    <constructor-arg ref="component1" />
 	    <property name="attachments">
 	      <map>
 	        <entry key="/api">
-	          <ref bean="bugTrackingApp" />
+	          <ref bean="bugTrackingApp1" />
 	        </entry>
 	        
 	        <entry key="/nonVerify">
-	          <ref bean="nonVerifyApp" />
+	          <ref bean="nonVerifyApp1" />
 	        </entry>
 	      </map>
 	    </property>
   	</bean>
 	
 	
-	<bean id="bugTrackingApp" class="org.restlet.Application">
-		<property name="inboundRoot" ref="customerAuthenticator" /> 	
+	<bean id="bugTrackingApp1" class="org.restlet.Application">
+		<property name="inboundRoot" ref="customerAuthenticator1" /> 	
 	</bean>
 	
-	<bean id="nonVerifyApp" class="org.restlet.Application">
-		<property name="inboundRoot" ref="defaultRouter" /> 	
+	<bean id="nonVerifyApp1" class="org.restlet.Application">
+		<property name="inboundRoot" ref="defaultRouter1" /> 	
 	</bean>
 
-	<bean id="customerAuthenticator" class="filter.CustomerAuthenticator">
-		<property name="verifier" ref="customerVerifier"/> 
-		<property name="next" ref="restRouter"/>
+	<bean id="customerAuthenticator1" class="filter.CustomerAuthenticator">
+		<property name="verifier" ref="customerVerifier1"/> 
+		<property name="next" ref="restRouter1"/>
 	</bean>
 
-	<bean id="customerVerifier" class="filter.CustomerVerifier">
+	<bean id="customerVerifier1" class="filter.CustomerVerifier">
 		<property name="admininfoService" ref="AdmininfoService"></property>
 	</bean>
 	
@@ -114,6 +114,9 @@
 	
 	<bean id="UserinfoService" class="service.impl.UserinfoServiceImpl">
 		<property name="userinfoDAO" ref="UserinfoDAO" />
+		<property name="managedbugsDAO" ref="ManagedbugsDAO" />
+		<property name="ownerbugsDAO" ref="OwnerbugsDAO" />
+		<property name="buginfoDAO" ref="BuginfoDAO" />
 	</bean>
 	
 	<bean id="OwnerbugsService" class="service.impl.OwnerbugsServiceImpl">
@@ -130,10 +133,8 @@
 	
 	<bean id="OwnerbugsResource" class="resource.OwnerbugsResource"> 
 		<property name="ownerbugsService" ref="OwnerbugsService" />
-		
-	</bean>
-	
 
+	</bean>
 	
 	<bean id="ManagedbugsResource" class="resource.ManagedbugsResource">
 		<property name="managedbugsService" ref="ManagedbugsService" />
@@ -147,16 +148,30 @@
 		<property name="userinfoService" ref="UserinfoService"/>
 	</bean>
 	
-	<bean id="defaultRouter" class="org.restlet.ext.spring.SpringRouter">
+	<bean id="TestResource" class="resource.TestResource">
+	</bean>
+	
+	<bean id="defaultRouter1" class="org.restlet.ext.spring.SpringRouter">
 		<property name="attachments">
-			<map>			
+			<map>	
+				<entry key="/test">
+				<bean class="org.restlet.ext.spring.SpringFinder">
+						<lookup-method name="create" bean="TestResource" />  
+					</bean>
+				</entry>		
 			</map>
 		</property>
 	</bean>
 	
-	<bean id="restRouter" class="org.restlet.ext.spring.SpringRouter">
+	<bean id="restRouter1" class="org.restlet.ext.spring.SpringRouter">
 		<property name="attachments">
 			<map>
+				 <entry key="/managedBugs">
+		   			<bean class="org.restlet.ext.spring.SpringFinder">  
+                     <lookup-method name="create" bean="ManagedbugsResource" />  
+                 	</bean> 
+                </entry>
+			
 				<entry key="/userinfo">
 				   <bean class="org.restlet.ext.spring.SpringFinder">  
                        <lookup-method name="create" bean="UserinfoResource" />  
@@ -168,13 +183,6 @@
                 <entry key="/userinfos">
 		   			<bean class="org.restlet.ext.spring.SpringFinder">  
                      <lookup-method name="create" bean="UserinfosResource" />  
-                 	</bean> 
-                </entry>
-                
-                
-                  <entry key="/managedBugs">
-		   			<bean class="org.restlet.ext.spring.SpringFinder">  
-                     <lookup-method name="create" bean="ManagedbugsResource" />  
                  	</bean> 
                 </entry>
                 

@@ -60,6 +60,7 @@ public class ManagedbugsServiceImpl implements IManagedbugsService{
 	public void addManagedbug(int userinfoId, int buginfoId) {
 		// TODO Auto-generated method stub
 		Managedbugs mb = new Managedbugs(userinfoId, buginfoId);
+		
 		if (mb != null)
 			managedbugsDAO.save(mb);
 		

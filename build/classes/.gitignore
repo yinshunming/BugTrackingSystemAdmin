@@ -1,7 +1,3 @@
-/bean
-/dao
-/database
-/filter
 /resource
 /service
-/util
+/dao

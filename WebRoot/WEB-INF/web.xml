@@ -32,7 +32,7 @@ xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee http://java.sun.com/xml/ns/j
         
         <init-param>   
             <param-name>org.restlet.component</param-name>   
-            <param-value>component</param-value>   
+            <param-value>component1</param-value>   
         </init-param> 
        
         <!-- 

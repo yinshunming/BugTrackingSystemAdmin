@@ -15,4 +15,6 @@ public interface IManagedbugsDAO {
 	public void update(Managedbugs mb);
 	
 	public void delete(Managedbugs mb);
+	
+	public List findByUserInfoId(Object userInfoId);
 }

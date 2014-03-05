@@ -13,7 +13,7 @@ import bean.Userinfo;
 import service.IUserinfoService;
 import util.Helper;
 
-public class UserinfosResource extends ServerResource{
+public class UserinfosResource extends BaseResource{
 	
 	private IUserinfoService userinfoService;
 	
@@ -27,7 +27,7 @@ public class UserinfosResource extends ServerResource{
 	
 	
 	@Get
-	public Representation get(Representation entity) {
+	public Representation get() {
 		List<Userinfo> userinfoList = userinfoService.getUserinfoList();
 		JSONArray returnStr = Helper.convertFromList(userinfoList);
 		

@@ -19,7 +19,7 @@ import service.IOwnerbugsService;
 import util.ConstantUtil;
 import util.Helper;
 
-public class OwnerbugsResource extends ServerResource{
+public class OwnerbugsResource extends BaseResource{
 	private IOwnerbugsService ownerbugsService;
 	
 	public IOwnerbugsService getOwnerbugsService() {
@@ -31,7 +31,7 @@ public class OwnerbugsResource extends ServerResource{
 	}
 
 	@Delete
-	public Representation delete(Representation entity) {
+	public Representation delete() {
 		Form form = getRequest().getResourceRef().getQueryAsForm();
 		
 		String id = form.getFirstValue("id");
@@ -42,7 +42,7 @@ public class OwnerbugsResource extends ServerResource{
 	}
 	
 	@Get
-	public Representation get(Representation entity) {
+	public Representation get() {
 		
 		List<WarppedOwnerbugs> warList = ownerbugsService.getOwnerbugs();
 		JSONArray returnjn = Helper.convertFromList(warList);
