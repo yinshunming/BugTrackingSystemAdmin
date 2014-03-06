@@ -3,6 +3,8 @@ package resource;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.json.JSONException;
+import org.json.JSONStringer;
 import org.restlet.data.Form;
 import org.restlet.ext.json.JsonRepresentation;
 import org.restlet.representation.Representation;
@@ -40,10 +42,15 @@ public class UserinfoResource extends BaseResource{
 		
 		Integer id = userinfoService.addUserinfo(username, password, oneBugFullName, email);
 		
-		Map<String, String> map = new HashMap<String,String>();
-		map.put(id.toString(), ConstantUtil.savingUserinfoOK);
+		String myString = "";
+		try {
+			myString = new JSONStringer().object().key("id").value(id.toString()).key("message").value(ConstantUtil.savingUserinfoOK).endObject().toString();
+		} catch (JSONException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		
-		return new JsonRepresentation(map);
+		return new JsonRepresentation(myString);
 	}
 	
 	@Put

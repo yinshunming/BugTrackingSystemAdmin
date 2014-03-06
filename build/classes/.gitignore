@@ -1,4 +1,8 @@
-/resource
-/service
+/bean
 /dao
 /database
+/filter
+/resource
+/service
+/test
+/util
