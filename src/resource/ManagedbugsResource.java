@@ -12,6 +12,8 @@ import org.restlet.resource.Delete;
 import org.restlet.resource.Get;
 import org.restlet.resource.Post;
 import org.restlet.resource.Put;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 
 
@@ -23,28 +25,37 @@ import util.ConstantUtil;
 import util.Helper;
 
 public class ManagedbugsResource extends BaseResource{
-	
-	private IManagedbugsService managedbugsService;
 
-	
+	private static final Logger log = LoggerFactory.getLogger(ManagedbugsResource.class);
+
+	private IManagedbugsService managedbugsService;
 
 
 	@Delete
 	public Representation delete() {
+		log.info("doing delete method!");
+		
 		Form form = getRequest().getResourceRef().getQueryAsForm();
 		
 		String id = form.getFirstValue("id");
-		System.out.println("id : " + id);
+		
+		log.info("id : " + id);
+		
 		managedbugsService.deleteManagedbug(Integer.valueOf(id));
 		
-		return new StringRepresentation(ConstantUtil.deletingManagedbugOK);		
+		log.info("doing delete method ok!");
 		
+		return new StringRepresentation(ConstantUtil.deletingManagedbugOK);				
 	}
 	
 	@Get
 	public Representation get() {
+		log.info("doing get method!!!");
+		
 		List<WarppedManagedbugs> warList = managedbugsService.getManagedbugsList();
 		JSONArray returnjn = Helper.convertFromList(warList);
+		
+		log.info("doing get method ok!!!");
 		return new JsonRepresentation(returnjn);
 	}
 	
@@ -58,7 +69,7 @@ public class ManagedbugsResource extends BaseResource{
 
 	@Post
 	public Representation post(Representation entity) {
-		Form form = new Form(entity);
+		Form form = getRequest().getResourceRef().getQueryAsForm();
 		
 		String userinfoId = form.getFirstValue("userinfoId");
 		String buginfoId = form.getFirstValue("buginfoId");
