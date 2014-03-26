@@ -45,8 +45,9 @@ public class UserinfoResource extends BaseResource{
 		String password = form.getFirstValue("password");
 		String oneBugFullName = form.getFirstValue("oneBugFullName");
 		String email = form.getFirstValue("email");
-		
-		Integer id = userinfoService.addUserinfo(username, password, oneBugFullName, email);
+		//encrypt
+		String encryptedPassword = util.Helper.encryptToSHA(password);
+		Integer id = userinfoService.addUserinfo(username, encryptedPassword, oneBugFullName, email);
 		
 		String myString = "";
 		try {
@@ -73,10 +74,11 @@ public class UserinfoResource extends BaseResource{
 		String password = form.getFirstValue("password");
 		String oneBugFullName = form.getFirstValue("oneBugFullName");
 		String email = form.getFirstValue("email");
-		
+		//encrypt
+		String encryptedPassword = util.Helper.encryptToSHA(password);
 		log.info("id " + id);
 		
-		userinfoService.updateUserinfo(Integer.valueOf(id), username, password, oneBugFullName, email);
+		userinfoService.updateUserinfo(Integer.valueOf(id), username, encryptedPassword, oneBugFullName, email);
 		
 		log.info("doing put method ok!");
 		return new StringRepresentation(ConstantUtil.updatingUserinfoOK);
